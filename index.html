@@ -1,0 +1,2653 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inyectora de Plástico Reciclado – UMNG 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════
+       TOKENS & RESET
+    ═══════════════════════════════════════ */
+    :root {
+      --navy:   #003366;
+      --blue:   #0057A8;
+      --sky:    #3A9BD5;
+      --gold:   #F5C200;
+      --gold-d: #C9A000;
+      --white:  #FFFFFF;
+      --off:    #F4F6FA;
+      --light:  #E8EDF5;
+      --grey:   #6B7A99;
+      --dark:   #111827;
+      --radius: 10px;
+      --shadow: 0 4px 24px rgba(0,51,102,.10);
+      --shadow-lg: 0 12px 40px rgba(0,51,102,.16);
+      --ff-head: 'Playfair Display', Georgia, serif;
+      --ff-body: 'Source Sans 3', sans-serif;
+      --ff-mono: 'JetBrains Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--ff-body);
+      background: var(--off);
+      color: var(--dark);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; height: auto; display: block; border-radius: var(--radius); }
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { color: var(--gold-d); }
+    
+
+    /* ═══════════════════════════════════════
+       HEADER / HERO
+    ═══════════════════════════════════════ */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 60%, var(--sky) 100%);
+      color: var(--white);
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 80% 50%, rgba(245,194,0,.13) 0%, transparent 70%),
+        repeating-linear-gradient(
+          -45deg,
+          transparent,
+          transparent 38px,
+          rgba(255,255,255,.03) 38px,
+          rgba(255,255,255,.03) 39px
+        );
+      pointer-events: none;
+    }
+    .hero-top-bar {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 18px 48px;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+    }
+    .hero-logo {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--ff-head);
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: var(--navy);
+      flex-shrink: 0;
+      border: 3px solid var(--gold);
+      letter-spacing: -1px;
+    }
+    .hero-inst { font-size: .85rem; opacity: .75; }
+    .hero-inst strong { display: block; font-size: 1rem; opacity: 1; }
+    .hero-body {
+      padding: 64px 48px 72px;
+      max-width: 900px;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(245,194,0,.18);
+      border: 1px solid rgba(245,194,0,.4);
+      color: var(--gold);
+      font-family: var(--ff-mono);
+      font-size: .78rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 24px;
+    }
+    .hero-badge::before { content: '◆'; font-size: .6rem; }
+    .hero h1 {
+      font-family: var(--ff-head);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.15;
+      font-weight: 900;
+      margin-bottom: 20px;
+    }
+    .hero h1 span { color: var(--gold); }
+    .hero-sub {
+      font-size: 1.1rem;
+      opacity: .82;
+      max-width: 640px;
+      margin-bottom: 36px;
+    }
+    .hero-chips {
+      display: flex; flex-wrap: wrap; gap: 10px;
+    }
+    .chip {
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.22);
+      color: var(--white);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: .82rem;
+      font-weight: 600;
+    }
+    .hero-wave {
+      display: block;
+      width: 100%; height: 60px;
+      background: var(--off);
+      clip-path: ellipse(55% 100% at 50% 100%);
+      margin-top: -1px;
+    }
+
+    /* ═══════════════════════════════════════
+       STICKY NAV
+    ═══════════════════════════════════════ */
+    nav.sticky {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      background: var(--navy);
+      box-shadow: 0 2px 16px rgba(0,0,0,.25);
+    }
+    nav.sticky .nav-inner {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(245,194,0,.5) transparent;
+      -webkit-overflow-scrolling: touch;
+      cursor: grab;
+    }
+
+    nav.sticky .nav-inner::-webkit-scrollbar { height: 3px;}
+    nav.sticky .nav-inner::-webkit-scrollbar-track {background: transparent;}
+    nav.sticky .nav-inner::-webkit-scrollbar-thumb {
+      background-color: rgba(245,194,0,.5);
+      border-radius: 2px;
+    }
+    nav.sticky .nav-inner.grabbing {cursor: grabbing;}
+
+
+    nav.sticky a {
+      color: rgba(255,255,255,.75);
+      font-size: .82rem;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 14px 18px;
+      white-space: nowrap;
+      transition: color .2s, border-bottom .2s;
+      border-bottom: 3px solid transparent;
+    }
+    nav.sticky a:hover,
+    nav.sticky a.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+
+    /* ═══════════════════════════════════════
+       LAYOUT
+    ═══════════════════════════════════════ */
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 0 32px;
+    }
+    section.block {
+      padding: 72px 0;
+    }
+    section.block.alt { background: var(--white); }
+    section.block.dark {
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    /* ═══════════════════════════════════════
+       SECTION HEADERS
+    ═══════════════════════════════════════ */
+    .sec-label {
+      font-family: var(--ff-mono);
+      font-size: .72rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--gold-d);
+      margin-bottom: 8px;
+      display: block;
+    }
+    .dark .sec-label { color: var(--gold); }
+    .sec-title {
+      font-family: var(--ff-head);
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 14px;
+      line-height: 1.2;
+    }
+    .dark .sec-title { color: var(--white); }
+    .sec-line {
+      width: 52px; height: 4px;
+      background: linear-gradient(90deg, var(--gold), var(--sky));
+      border-radius: 2px;
+      margin-bottom: 36px;
+    }
+    .sec-desc {
+      font-size: 1.05rem;
+      color: var(--grey);
+      max-width: 680px;
+      margin-bottom: 40px;
+    }
+    .dark .sec-desc { color: rgba(255,255,255,.65); }
+
+    /* ═══════════════════════════════════════
+       TEAM CARDS
+    ═══════════════════════════════════════ */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    .team-card {
+      background: var(--white);
+      border: 1px solid var(--light);
+      border-radius: var(--radius);
+      padding: 24px 20px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      transition: transform .25s, box-shadow .25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .team-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--blue), var(--gold));
+    }
+    .team-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    .team-avatar {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--sky));
+      color: var(--white);
+      font-family: var(--ff-head);
+      font-size: 1.4rem;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 12px;
+      border: 3px solid var(--gold);
+    }
+    .team-name {
+      font-weight: 700;
+      font-size: .9rem;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+    .team-role {
+      font-size: .75rem;
+      color: var(--grey);
+      font-family: var(--ff-mono);
+    }
+    .prof-card {
+      background: linear-gradient(135deg, var(--navy), var(--blue));
+      color: var(--white);
+      border-radius: var(--radius);
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-top: 24px;
+      box-shadow: var(--shadow-lg);
+    }
+    .prof-card .team-avatar { background: rgba(255,255,255,.15); border-color: var(--gold); }
+    .prof-card .team-name { color: var(--white); font-size: 1rem; }
+    .prof-card .team-role { color: rgba(255,255,255,.65); }
+
+    /* ═══════════════════════════════════════
+       PROBLEM / JUSTIFY CARDS
+    ═══════════════════════════════════════ */
+    .three-col {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .icon-card {
+      background: var(--white);
+      border: 1px solid var(--light);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      box-shadow: var(--shadow);
+      transition: transform .25s;
+    }
+    .icon-card:hover { transform: translateY(-3px); }
+    .icon-card .icon {
+      font-size: 2rem;
+      margin-bottom: 14px;
+    }
+    .icon-card h3 {
+      font-family: var(--ff-head);
+      font-size: 1.1rem;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+    .icon-card p { font-size: .93rem; color: var(--grey); }
+
+    /* ═══════════════════════════════════════
+       OBJECTIVES
+    ═══════════════════════════════════════ */
+    .obj-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .obj-list li {
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.12);
+      border-left: 4px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      font-size: .93rem;
+    }
+    .obj-list li .num {
+      font-family: var(--ff-mono);
+      font-size: .7rem;
+      color: var(--gold);
+      font-weight: 700;
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+    @media (max-width: 640px) {
+      .obj-list { grid-template-columns: 1fr; }
+    }
+
+    /* ═══════════════════════════════════════
+       SUBSYSTEMS / DESIGN
+    ═══════════════════════════════════════ */
+    .subsys-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 22px;
+    }
+    .subsys-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 26px 22px;
+      box-shadow: var(--shadow);
+      border-top: 4px solid var(--blue);
+      transition: border-color .2s, transform .2s;
+    }
+    .subsys-card:hover { border-color: var(--gold); transform: translateY(-3px); }
+    .subsys-card h3 {
+      font-family: var(--ff-head);
+      font-size: 1.05rem;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+    .subsys-card ul {
+      padding-left: 16px;
+      font-size: .88rem;
+      color: var(--grey);
+    }
+    .subsys-card ul li { margin-bottom: 4px; }
+
+    /* ═══════════════════════════════════════
+       TECHNICAL SPECS TABLE
+    ═══════════════════════════════════════ */
+    .specs-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .specs-table thead {
+      background: var(--navy);
+      color: var(--white);
+    }
+    .specs-table th {
+      padding: 14px 20px;
+      text-align: left;
+      font-size: .82rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-family: var(--ff-mono);
+    }
+    .specs-table td {
+      padding: 12px 20px;
+      font-size: .92rem;
+      border-bottom: 1px solid var(--light);
+    }
+    .specs-table tr:last-child td { border-bottom: none; }
+    .specs-table tr:nth-child(even) td { background: var(--off); }
+    .specs-table td:first-child { font-weight: 600; color: var(--navy); }
+    .specs-table td:last-child {
+      font-family: var(--ff-mono);
+      color: var(--blue);
+      font-weight: 600;
+    }
+
+    /* ═══════════════════════════════════════
+       ADVANCES / RESULTS
+    ═══════════════════════════════════════ */
+    .advances-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+    @media (max-width: 700px) { .advances-grid { grid-template-columns: 1fr; } }
+    .advance-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: box-shadow .25s;
+    }
+    .advance-card:hover { box-shadow: var(--shadow-lg); }
+    .advance-header {
+      background: linear-gradient(90deg, var(--navy), var(--blue));
+      color: var(--white);
+      padding: 16px 22px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .advance-header .icon { font-size: 1.3rem; }
+    .advance-header h3 { font-family: var(--ff-head); font-size: 1rem; }
+    .advance-body { padding: 20px 22px; }
+    .advance-body p { font-size: .9rem; color: var(--grey); margin-bottom: 10px; }
+    .progress-bar-wrap { margin: 10px 0 4px; }
+    .progress-label {
+      display: flex; justify-content: space-between;
+      font-size: .8rem; color: var(--grey); margin-bottom: 5px;
+    }
+    .progress-bar {
+      height: 8px;
+      background: var(--light);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, var(--blue), var(--gold));
+      transition: width 1s ease;
+    }
+
+    /* ═══════════════════════════════════════
+       IMAGE PLACEHOLDER
+    ═══════════════════════════════════════ */
+    .img-placeholder {
+      background: linear-gradient(135deg, var(--light), var(--white));
+      border: 2px dashed var(--sky);
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: var(--grey);
+      font-size: .85rem;
+      text-align: center;
+      padding: 32px 16px;
+      min-height: 180px;
+    }
+    .img-placeholder .ph-icon { font-size: 2.5rem; opacity: .4; }
+    .img-placeholder small { font-family: var(--ff-mono); font-size: .72rem; }
+
+    /* ═══════════════════════════════════════
+       GANTT
+    ═══════════════════════════════════════ */
+    .gantt-wrap {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .gantt-header {
+      background: var(--navy);
+      color: var(--white);
+      padding: 16px 24px;
+      font-family: var(--ff-head);
+      font-size: 1.1rem;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .gantt-table { width: 100%; border-collapse: collapse; }
+    .gantt-months {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+    }
+    .gantt-month {
+      padding: 8px 4px;
+      text-align: center;
+      font-size: .72rem;
+      font-family: var(--ff-mono);
+      font-weight: 600;
+      color: var(--white);
+      background: var(--blue);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    .gantt-body { padding: 0; }
+    .gantt-row {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      border-bottom: 1px solid var(--light);
+    }
+    .gantt-row:last-child { border-bottom: none; }
+    .gantt-task {
+      padding: 10px 16px;
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--navy);
+      border-right: 1px solid var(--light);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--off);
+    }
+    .gantt-task .area-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .gantt-bars {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      align-items: center;
+      padding: 6px 4px;
+      gap: 0;
+    }
+    .gantt-cell { height: 28px; }
+    .gantt-bar {
+      height: 22px;
+      border-radius: 4px;
+      margin: 3px 2px;
+      display: flex; align-items: center;
+      padding-left: 8px;
+      font-size: .68rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .bar-mec { background: linear-gradient(90deg, #0057A8, #3A9BD5); }
+    .bar-ctrl { background: linear-gradient(90deg, #C9A000, #F5C200); color: var(--navy); }
+    .bar-ia   { background: linear-gradient(90deg, #1a7a4a, #2ecc71); }
+    .bar-int  { background: linear-gradient(90deg, #7B2FBE, #A855F7); }
+    .bar-val  { background: linear-gradient(90deg, #C0392B, #E74C3C); }
+    .gantt-legend {
+      display: flex; flex-wrap: wrap; gap: 16px;
+      padding: 16px 24px;
+      border-top: 1px solid var(--light);
+    }
+    .legend-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: .78rem; color: var(--grey);
+    }
+    .legend-dot {
+      width: 14px; height: 14px;
+      border-radius: 3px;
+    }
+
+    /* ═══════════════════════════════════════
+       IA SECTION
+    ═══════════════════════════════════════ */
+    .ia-flow {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 32px 0;
+    }
+    .ia-step {
+      background: var(--white);
+      border: 2px solid var(--light);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      text-align: center;
+      min-width: 140px;
+      max-width: 160px;
+      flex: 1;
+      box-shadow: var(--shadow);
+    }
+    .ia-step .icon { font-size: 2rem; margin-bottom: 8px; }
+    .ia-step h4 { font-size: .82rem; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+    .ia-step p { font-size: .75rem; color: var(--grey); }
+    .ia-arrow {
+      font-size: 1.4rem;
+      color: var(--gold-d);
+      padding: 0 6px;
+      flex-shrink: 0;
+    }
+    .model-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 28px;
+    }
+    .stat-card {
+      background: var(--off);
+      border: 1px solid var(--light);
+      border-radius: var(--radius);
+      padding: 20px;
+      text-align: center;
+    }
+    .stat-num {
+      font-family: var(--ff-head);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--blue);
+      margin-bottom: 4px;
+    }
+    .stat-label { font-size: .8rem; color: var(--grey); }
+
+    /* ═══════════════════════════════════════
+       FINANCIAL
+    ═══════════════════════════════════════ */
+    .cost-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 640px) { .cost-grid { grid-template-columns: 1fr; } }
+    .cost-category {
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .cost-cat-header {
+      background: var(--navy);
+      color: var(--white);
+      padding: 12px 18px;
+      font-family: var(--ff-mono);
+      font-size: .78rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .cost-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 18px;
+      border-bottom: 1px solid var(--off);
+      font-size: .87rem;
+    }
+    .cost-item:last-child { border-bottom: none; }
+    .cost-item .name { color: var(--dark); }
+    .cost-item .price {
+      font-family: var(--ff-mono);
+      font-weight: 700;
+      color: var(--blue);
+      font-size: .82rem;
+    }
+    .total-banner {
+      background: linear-gradient(135deg, var(--navy), var(--blue));
+      color: var(--white);
+      border-radius: var(--radius);
+      padding: 28px 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 28px;
+      box-shadow: var(--shadow-lg);
+    }
+    .total-banner h3 { font-family: var(--ff-head); font-size: 1.2rem; }
+    .total-banner .amount {
+      font-family: var(--ff-head);
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--gold);
+    }
+    .total-banner small { display: block; font-size: .78rem; opacity: .65; margin-top: 4px; }
+
+    
+    .concl-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .concl-card {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+    .concl-num {
+      font-family: var(--ff-head);
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--gold);
+      opacity: .35;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+    .concl-card p { font-size: .9rem; color: rgba(255,255,255,.8); }
+
+    /* ═══════════════════════════════════════
+       MONITORING (untouched styles)
+    ═══════════════════════════════════════ */
+    .monitor-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 16px;
+    }
+    @media (max-width: 680px) { .monitor-grid { grid-template-columns: 1fr; } }
+    .card {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 2px 6px rgba(0,0,0,.08);
+    }
+    .card h3 { margin-top: 0; }
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: .82rem;
+      font-weight: bold;
+      transition: background .3s, color .3s;
+    }
+    .online  { background: #d4edda; color: #155724; }
+    .offline { background: #f8d7da; color: #721c24; }
+    .connecting { background: #fff3cd; color: #856404; }
+    #cam-box {
+      position: relative;
+      background: #111;
+      border-radius: 6px;
+      overflow: hidden;
+      margin-top: 10px;
+      min-height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #cam-box img { width: 100%; height: auto; display: block; border: none; margin: 0; border-radius: 0; }
+    #cam-placeholder { color: #777; font-size: .85rem; text-align: center; padding: 30px; }
+    #cam-material-tag {
+      position: absolute;
+      bottom: 8px; left: 8px;
+      background: rgba(0,0,0,.7);
+      color: #0f0;
+      font-family: monospace;
+      font-size: .85rem;
+      padding: 3px 10px;
+      border-radius: 4px;
+      display: none;
+    }
+    .cam-btns { margin-top: 8px; }
+    .cam-btns button {
+      padding: 5px 12px;
+      margin-right: 6px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background: #34495e;
+      color: #fff;
+      font-size: .82rem;
+    }
+    .cam-btns button:hover { background: #2c3e50; }
+    .sensor-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .sensor-row:last-child { border-bottom: none; }
+    .s-label { color: #555; }
+    .s-value { font-weight: bold; color: #2c3e50; transition: color .3s; }
+    .s-value.updated { color: #27ae60; }
+    .ws-config {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .ws-config input {
+      padding: 6px 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: .88rem;
+      width: 180px;
+    }
+    .btn-conectar {
+      padding: 8px 18px;
+      border: none;
+      border-radius: 4px;
+      background: #2c3e50;
+      color: #fff;
+      cursor: pointer;
+      font-size: .9rem;
+      transition: background .2s;
+    }
+    .btn-conectar:hover { background: #1a252f; }
+    .btn-conectar:disabled { background: #95a5a6; cursor: not-allowed; }
+    .btn-desconectar {
+      padding: 8px 18px;
+      border: none;
+      border-radius: 4px;
+      background: #c0392b;
+      color: #fff;
+      cursor: pointer;
+      font-size: .9rem;
+      display: none;
+    }
+    .btn-desconectar:hover { background: #a93226; }
+    #ws-log {
+      margin-top: 12px;
+      background: #1e1e1e;
+      color: #a8ff78;
+      font-family: monospace;
+      font-size: .78rem;
+      padding: 10px;
+      border-radius: 6px;
+      max-height: 110px;
+      overflow-y: auto;
+      display: none;
+    }
+    #ws-log p { margin: 2px 0; }
+    #ws-log .log-err  { color: #ff6b6b; }
+    #ws-log .log-info { color: #74b9ff; }
+    #ws-log .log-data { color: #a8ff78; }
+    .toggle-log {
+      font-size: .78rem;
+      color: #888;
+      cursor: pointer;
+      text-decoration: underline;
+      margin-top: 6px;
+      display: inline-block;
+    }
+
+    /* ═══════════════════════════════════════
+       BIBLIOGRAPHY
+    ═══════════════════════════════════════ */
+    .bib-list { list-style: none; counter-reset: bib; }
+    .bib-list li {
+      counter-increment: bib;
+      display: flex;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--light);
+      font-size: .9rem;
+      align-items: flex-start;
+    }
+    .bib-list li::before {
+      content: '[' counter(bib) ']';
+      font-family: var(--ff-mono);
+      font-size: .75rem;
+      color: var(--blue);
+      font-weight: 700;
+      margin-top: 2px;
+      flex-shrink: 0;
+      min-width: 28px;
+    }
+
+    /* ═══════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════ */
+    footer {
+      background: var(--dark);
+      color: rgba(255,255,255,.5);
+      padding: 40px 32px;
+      text-align: center;
+      font-size: .82rem;
+    }
+    footer .footer-brand {
+      font-family: var(--ff-head);
+      font-size: 1.2rem;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    footer .footer-sub { margin-bottom: 16px; }
+    .footer-chips {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+      margin-top: 16px;
+    }
+    .footer-chip {
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.12);
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: .75rem;
+    }
+
+    /* ═══════════════════════════════════════
+       ANIMATIONS
+    ═══════════════════════════════════════ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp .7s ease both; }
+    .fade-up-1 { animation-delay: .1s; }
+    .fade-up-2 { animation-delay: .2s; }
+    .fade-up-3 { animation-delay: .3s; }
+
+    /* ═══════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════ */
+    @media (max-width: 768px) {
+      .hero-body { padding: 40px 24px 56px; }
+      .hero-top-bar { padding: 14px 24px; }
+      .container { padding: 0 18px; }
+      .three-col { grid-template-columns: 1fr; }
+      .advances-grid { grid-template-columns: 1fr; }
+      .model-stats { grid-template-columns: 1fr 1fr; }
+      .total-banner { flex-direction: column; gap: 12px; text-align: center; }
+      .gantt-row { grid-template-columns: 130px 1fr; }
+      .gantt-task { font-size: .72rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════ HERO ══════════ -->
+<header class="hero" id="inicio">
+  <div class="hero-top-bar">
+    <div class="hero-logo">UMNG</div>
+    <div class="hero-inst">
+      <strong>Universidad Militar Nueva Granada</strong>
+      Programa de Ingeniería Mecatrónica · Periodo 2026-1
+    </div>
+  </div>
+  <div class="hero-body fade-up">
+    <div class="hero-badge">Diseño Mecatrónico · Proyecto Final 2026</div>
+    <h1>Diseño e Implementación de una<br><span>Inyectora de Plástico Reciclado</span><br>con Control Automático e IA</h1>
+    <p class="hero-sub">Sistema mecatrónico inteligente para la clasificación automática de plásticos y la regulación precisa del proceso de inyección, orientado a manufactura local sostenible.</p>
+    <div class="hero-chips">
+      <span class="chip">🔩 Mecánica</span>
+      <span class="chip">⚡ Control Automático</span>
+      <span class="chip">🤖 Inteligencia Artificial</span>
+      <span class="chip">📡 Monitoreo IoT</span>
+      <span class="chip">♻️ Plástico Reciclado</span>
+    </div>
+  </div>
+  <div class="hero-wave"></div>
+</header>
+
+<!-- ══════════ NAV ══════════ -->
+<nav class="sticky" id="main-nav">
+  <div class="nav-inner">
+    <a href="#equipo">Equipo</a>
+    <a href="#problema">Problema</a>
+    <a href="#objetivos">Objetivos</a>
+    <a href="#arte">Estado del Arte</a>
+    <a href="#diseno">Diseño</a>
+    <a href="#avances">Avances</a>
+    <a href="#control">Control</a>
+    <a href="#ia">Inteligencia Artificial</a>
+    <a href="#gantt">Cronograma</a>
+    <a href="#financiero">Financiero</a>
+    <a href="#resultados">Resultados</a>
+    <a href="#inconvenientes">Inconvenientes</a>
+    <a href="#conclusiones">Conclusiones</a>
+    <a href="#manual">Manual</a>
+    <a href="#monitoreo">Monitoreo</a>
+    <a href="#bibliografia">Bibliografía</a>
+  </div>
+</nav>
+
+<!-- ══════════ EQUIPO ══════════ -->
+<section class="block" id="equipo">
+  <div class="container">
+    <span class="sec-label">Integrantes del proyecto</span>
+    <h2 class="sec-title">Equipo de Trabajo</h2>
+    <div class="sec-line"></div>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-avatar">ME</div>
+        <div class="team-name">María Sofía Esguerra Gallego</div>
+        <div class="team-role">Mecatrónica · Mecánica & Visión</div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">VD</div>
+        <div class="team-name">Valentina Daza Cortés</div>
+        <div class="team-role">Mecatrónica · Mecánica & Software</div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">CM</div>
+        <div class="team-name">Carlos Andrés Moreno Meneses</div>
+        <div class="team-role">Mecatrónica · Control & Electrónica</div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">JT</div>
+        <div class="team-name">Juan David Toquica Padilla</div>
+        <div class="team-role">Mecatrónica · Control & Electrónica</div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">SM</div>
+        <div class="team-name">Santiago Alfonso Medina Álvarez</div>
+        <div class="team-role">Mecatrónica · IA & Visión</div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">DQ</div>
+        <div class="team-name">Daniel Quilaguy Correa</div>
+        <div class="team-role">Mecatrónica · Mecánica & Integración</div>
+      </div>
+    </div>
+    <div class="prof-card" style="margin-top:24px; max-width:480px;">
+      <div class="team-avatar">EC</div>
+      <div>
+        <div class="team-name">Edwin Darío Cendales</div>
+        <div class="team-role">Profesor – Diseño Mecatrónico</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PROBLEMA / JUSTIFICACIÓN ══════════ -->
+<section class="block alt" id="problema">
+  <div class="container">
+    <span class="sec-label">Contexto y motivación</span>
+    <h2 class="sec-title">Planteamiento del Problema</h2>
+    <div class="sec-line"></div>
+    <p class="sec-desc">La industria plástica colombiana enfrenta retos críticos de acceso, eficiencia y sostenibilidad. Este proyecto responde a tres dimensiones complementarias:</p>
+    <div class="three-col">
+      <div class="icon-card">
+        <div class="icon">🌱</div>
+        <h3>Dimensión Ambiental</h3>
+        <p>Colombia genera millones de toneladas de residuos sólidos anualmente. Una proporción significativa son plásticos que no se reincorporan a la cadena productiva, agravando el impacto ambiental del sector manufacturero.</p>
+      </div>
+      <div class="icon-card">
+        <div class="icon">💰</div>
+        <h3>Dimensión Económica</h3>
+        <p>Los pequeños talleres de transformación plástica enfrentan altas barreras de entrada por el costo de la maquinaria industrial. Una inyectora inteligente de bajo costo democratiza el acceso a tecnología de manufactura.</p>
+      </div>
+      <div class="icon-card">
+        <div class="icon">⚙️</div>
+        <h3>Dimensión Tecnológica</h3>
+        <p>Los equipos disponibles para pequeños productores no cuentan con sistemas capaces de adaptar automáticamente los parámetros al tipo de material, generando piezas defectuosas y desperdicio.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ OBJETIVOS ══════════ -->
+<section class="block dark" id="objetivos">
+  <div class="container">
+    <span class="sec-label">Metas del proyecto</span>
+    <h2 class="sec-title">Objetivos</h2>
+    <div class="sec-line"></div>
+    <div style="background:rgba(245,194,0,.1);border:1px solid rgba(245,194,0,.25);border-radius:var(--radius);padding:20px 24px;margin-bottom:32px;">
+      <p style="font-size:.95rem;color:rgba(255,255,255,.85);"><strong style="color:var(--gold);">Objetivo General:</strong> Diseñar e implementar una inyectora de plástico reciclado inteligente que integre un sistema de control automático, un módulo de identificación de materiales basado en IA y una interfaz de monitoreo, optimizando la producción de piezas plásticas en contextos de pequeña y mediana escala.</p>
+    </div>
+    <ul class="obj-list">
+      <li><span class="num">01</span>Diseñar e integrar el sistema mecánico completo: husillo, cilindro de plastificación, sistema de cierre del molde, mecanismos de enfriamiento y validación mediante simulación en SolidWorks Plastics.</li>
+      <li><span class="num">02</span>Desarrollar un módulo de IA capaz de identificar y clasificar materiales plásticos (PET, PP, PS) mediante visión por computadora, con ajuste automático de parámetros según el material detectado.</li>
+      <li><span class="num">03</span>Implementar un sistema de control automático basado en ESP32 que regule temperatura, presión y velocidad, con interfaz HMI táctil para monitoreo en tiempo real y configuración de parámetros.</li>
+      <li><span class="num">04</span>Validar el desempeño integral del sistema mediante pruebas con plástico reciclado, evaluando calidad de piezas, precisión del control térmico y exactitud del clasificador.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ══════════ ESTADO DEL ARTE ══════════ -->
+<section class="block" id="arte">
+  <div class="container">
+    <span class="sec-label">Revisión bibliográfica</span>
+    <h2 class="sec-title">Estado del Arte</h2>
+    <div class="sec-line"></div>
+    <p class="sec-desc">Se realizó un análisis detallado de modelos industriales de referencia, evaluando configuraciones horizontales y verticales, distribución de componentes y estrategias de control.</p>
+    <div class="three-col">
+      <div class="icon-card">
+        <div class="icon">🏭</div>
+        <h3>Máquinas Industriales de Referencia</h3>
+        <p>Se estudió la distribución general de componentes, disposición mecánica, integración electrónica y mecanismos de cierre y expulsión de modelos industriales actuales.</p>
+      </div>
+      <div class="icon-card">
+        <div class="icon">📐</div>
+        <h3>Configuración Vertical vs. Horizontal</h3>
+        <p>Se evaluó la orientación vertical por las ventajas que ofrece la gravedad durante el desplazamiento del material fundido, simplificando el diseño mecánico.</p>
+      </div>
+      <div class="icon-card">
+        <div class="icon">🧠</div>
+        <h3>IA aplicada a manufactura</h3>
+        <p>Se revisaron arquitecturas CNN, YOLOv8 y modelos híbridos para clasificación de materiales poliméricos mediante visión por computadora en entornos industriales.</p>
+      </div>
+    </div>
+    <div style="margin-top:28px;background:var(--off);border-radius:var(--radius);padding:20px 24px;border-left:4px solid var(--gold-d);">
+      <p style="font-size:.9rem;color:var(--grey);"><strong style="color:var(--navy);">Referencia de video:</strong> Análisis funcional de inyectora industrial horizontal —
+        <a href="https://www.youtube.com/watch?v=TgMQyIs8X90" target="_blank" style="color:var(--blue);">youtube.com/watch?v=TgMQyIs8X90</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ DISEÑO ══════════ -->
+<section class="block alt" id="diseno">
+  <div class="container">
+    <span class="sec-label">Arquitectura del sistema</span>
+    <h2 class="sec-title">Diseño del Sistema</h2>
+    <div class="sec-line"></div>
+    <p class="sec-desc">El sistema se divide en cuatro subsistemas integrados que trabajan de forma coordinada para garantizar un proceso de inyección eficiente, controlado y adaptativo.</p>
+    <div class="subsys-grid">
+      <div class="subsys-card">
+        <h3>🔩 Subsistema Mecánico</h3>
+        <ul>
+          <li>Tornillo plastificador (Ø21 mm)</li>
+          <li>Barril calefactor (hasta 300 °C)</li>
+          <li>Tolva de alimentación</li>
+          <li>Boquilla de inyección (Ø1–2.5 mm)</li>
+          <li>Sistema de cierre del molde</li>
+          <li>Placa eyectora con resortes</li>
+          <li>Bastidor en acero estructural</li>
+        </ul>
+      </div>
+      <div class="subsys-card">
+        <h3>⚡ Subsistema Electrónico</h3>
+        <ul>
+          <li>Microcontrolador ESP32</li>
+          <li>Sensor PT100 + módulo MAX31865</li>
+          <li>Termopar tipo K + MAX6675</li>
+          <li>Relé de estado sólido (SSR)</li>
+          <li>Driver puente H (motor DC)</li>
+          <li>Driver paso a paso NEMA 23</li>
+          <li>Fuente 24 V / 110 V</li>
+        </ul>
+      </div>
+      <div class="subsys-card">
+        <h3>🤖 Subsistema de IA</h3>
+        <ul>
+          <li>Raspberry Pi 4 + cámara</li>
+          <li>Modelo TensorFlow CNN (128 neuronas)</li>
+          <li>Detector YOLOv8 (bounding box)</li>
+          <li>Dataset: PET, PP, PS</li>
+          <li>Data augmentation en Roboflow</li>
+          <li>Interfaz Tkinter + OpenCV</li>
+          <li>Salida en formato .h5</li>
+        </ul>
+      </div>
+      <div class="subsys-card">
+        <h3>📊 Subsistema de Control</h3>
+        <ul>
+          <li>Control PI discreto de temperatura</li>
+          <li>Setpoint ~240 °C (PP), ~260 °C (PET)</li>
+          <li>Control PWM motor DC (molde)</li>
+          <li>Control STEP/DIR motor NEMA 23</li>
+          <li>Comunicación WebSocket ESP32</li>
+          <li>Interfaz HMI táctil 3.5"</li>
+          <li>Monitoreo en tiempo real</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Specs técnicas -->
+    <h3 style="font-family:var(--ff-head);color:var(--navy);margin:40px 0 16px;font-size:1.3rem;">Parámetros técnicos del proceso</h3>
+    <table class="specs-table">
+      <thead>
+        <tr>
+          <th>Parámetro</th>
+          <th>Descripción</th>
+          <th>Valor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Temperatura de inyección</td><td>Barril calefactor (PP)</td><td>240 °C</td></tr>
+        <tr><td>Temperatura del molde</td><td>Molde de acero</td><td>140 °C</td></tr>
+        <tr><td>Tiempo de llenado</td><td>Pieza 35×20×7.5 mm</td><td>4.7 s</td></tr>
+        <tr><td>Presión de inyección (Ø3 mm)</td><td>Boquilla estándar</td><td>0.2 MPa</td></tr>
+        <tr><td>Fuerza de inyección</td><td>Con factor de seguridad ×3</td><td>212 N</td></tr>
+        <tr><td>Torque seguro requerido</td><td>Tornillo Ø20 mm</td><td>8.28 Nm</td></tr>
+        <tr><td>Torque disponible (NEMA 23)</td><td>Con transmisión ×3</td><td>3.6 Nm</td></tr>
+        <tr><td>Relación de transmisión</td><td>Poleas 20T / 60T</td><td>i = 3</td></tr>
+        <tr><td>Diámetro tornillo</td><td>Paso 14 mm, canal 6 mm</td><td>Ø21 mm</td></tr>
+      </tbody>
+    </table>
+
+    <!-- Imágenes CAD -->
+    <h3 style="font-family:var(--ff-head);color:var(--navy);margin:40px 0 16px;font-size:1.3rem;">Modelo CAD y Planos</h3>
+    <div class="advances-grid">
+      <div>
+        <img src="vista_lateral_CAD.png" alt="Vista lateral – Modelo CAD" style="width:100%;border-radius:var(--radius);">
+      </div>
+      <div>
+        <img src="ensamble_3d.png" alt="Ensamble general – Vista 3D" style="width:100%;border-radius:var(--radius);">
+      </div>
+      <div>
+        <img src="vista_isometrica.png" alt="Vista isométrica – Módulo de inyección" style="width:100%;border-radius:var(--radius);">
+      </div>
+      <div>
+        <img src="plano_tornillo.png" alt="Plano – Tornillo extrusor" style="width:100%;border-radius:var(--radius);">
+
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ AVANCES ══════════ -->
+<section class="block" id="avances">
+  <div class="container">
+    <span class="sec-label">Segundo corte · Mayo 2026</span>
+    <h2 class="sec-title">Avances Realizados</h2>
+    <div class="sec-line"></div>
+    <p class="sec-desc">En el segundo corte se lograron avances concretos en fabricación mecánica, implementación del sistema de control y entrenamiento del modelo de IA.</p>
+    <div class="advances-grid">
+
+      <div class="advance-card">
+        <div class="advance-header">
+          <span class="icon">🔩</span>
+          <h3>Sistema de Inyección Mecánico</h3>
+        </div>
+        <div class="advance-body">
+          <div class="progress-bar-wrap">
+            <div class="progress-label"><span>Fabricación física</span><span>75%</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:75%"></div></div>
+          </div>
+          <p>Modelado CAD completo del módulo de inyección. Mecanizado del tornillo sinfín en acero (Ø21 mm, paso 14 mm, canal 6 mm) en torno convencional. Fabricación parcial de la estructura.</p>
+          <img src="tornillo_fisico.png" alt="Tornillo mecanizado" 
+           style="width:160%;height:250px;object-fit:cover;object-position:center;border-radius:var(--radius);margin-top:12px;">
+
+
+        </div>
+      </div>
+
+      <div class="advance-card">
+        <div class="advance-header">
+          <span class="icon">⚙️</span>
+          <h3>Sistema de Transmisión por Poleas</h3>
+        </div>
+        <div class="advance-body">
+          <div class="progress-bar-wrap">
+            <div class="progress-label"><span>Implementado y probado</span><span>100%</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+          </div>
+          <p>Motor NEMA 23 acoplado al tornillo mediante correa dentada con relación i=3 (20T → 80T). Pruebas funcionales con movimiento suave, sin vibración y correcta transmisión de potencia.</p>
+          <img src="poleas_ensamble.png" alt="Sistema de poleas ensamblado" 
+            style="width:160%;height:250px;object-fit:cover;object-position:center;border-radius:var(--radius);margin-top:12px;">
+        </div>
+      </div>
+
+      <div class="advance-card">
+        <div class="advance-header">
+          <span class="icon">⚡</span>
+          <h3>Sistema Eléctrico</h3>
+        </div>
+        <div class="advance-body">
+          <div class="progress-bar-wrap">
+            <div class="progress-label"><span>Implementado</span><span>85%</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:85%"></div></div>
+          </div>
+          <p>Integración completa del gabinete eléctrico: relés de estado sólido (SSR), fuente 24V, drivers TB6600, PCB, módulos MAX31865, resistencias calefactoras y cableado estructurado. Sistema alimentado a 110V con distribución interna a 24V para lógica y motores.</p>
+          <img src="control_esp32.png" alt="Sistema eléctrico" style="width:100%;height:220px;object-fit:cover;object-position:center;border-radius:var(--radius);margin-top:12px;">
+        </div>
+      </div>
+
+      <div class="advance-card">
+        <div class="advance-header">
+          <span class="icon">🔒</span>
+          <h3>Sistema de Cierre del Molde</h3>
+        </div>
+        <div class="advance-body">
+          <div class="progress-bar-wrap">
+            <div class="progress-label"><span>Fabricado y probado</span><span>90%</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:90%"></div></div>
+          </div>
+          <p>Mecanismo de cierre con guías lineales y motor DC controlado por PWM. Incluye placa eyectora con resortes para desmoldeo automático. El Motor 2 (molde) confirma posición correcta antes de habilitar el ciclo de inyección.</p>
+          <img src="cierre_molde_ensamble.png" alt="Sistema de cierre del molde" style="width:100%;height:220px;object-fit:cover;object-position:center;border-radius:var(--radius);margin-top:12px;">
+        </div>
+      </div>
+
+      <div class="advance-card">
+        <div class="advance-header">
+          <span class="icon">🖥️</span>
+          <h3>Simulación SolidWorks Plastics</h3>
+        </div>
+        <div class="advance-body">
+          <div class="progress-bar-wrap">
+            <div class="progress-label"><span>Completada</span><span>100%</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+          </div>
+          <p>Análisis de llenado de molde (35×20×7.5 mm) en PP. Resultados: tiempo de llenado 4.7 s, presión máxima 0.4 MPa (Ø1 mm). Permitió estimar el torque requerido del sistema.</p>
+          <img src="simulacion_sw.png" alt="Simulación de llenado SolidWorks" style="width:100%;border-radius:var(--radius);margin-top:12px;">
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════ CONTROL ══════════ -->
+<section class="block" id="control">
+  <div class="container">
+    <span class="sec-label">Sistemas de control</span>
+    <h2 class="sec-title">Control del Sistema</h2>
+    <div class="sec-line"></div>
+    <p class="sec-desc">Implementación de los lazos de control para temperatura y motores, incluyendo identificación experimental de planta, diseño del controlador y validación experimental.</p>
+
+    <!-- IDENTIFICACIÓN DE PLANTAS -->
+    <h3 style="font-family:var(--ff-head);color:var(--navy);font-size:1.2rem;margin-bottom:16px;">1. Identificación experimental de plantas</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:40px;">
+
+      <div style="background:var(--white);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);border-left:4px solid var(--blue);">
+        <p style="font-family:var(--ff-mono);font-size:.72rem;color:var(--blue);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;">🌡️ Dinámica Térmica</p>
+        <p style="font-size:.88rem;color:var(--grey);margin-bottom:12px;">La dinámica térmica fue obtenida aplicando diferentes porcentajes de potencia a las resistencias calefactoras y registrando la evolución de temperatura medida por sensores PT100. La respuesta presentó comportamiento de <strong style="color:var(--navy);">primer orden</strong>, permitiendo modelar la planta para el diseño del controlador.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px;">
+          <div style="background:var(--off);border-radius:6px;padding:10px;text-align:center;">
+            <div style="font-family:var(--ff-mono);font-size:.7rem;color:var(--grey);margin-bottom:4px;">Entrada</div>
+            <div style="font-weight:700;color:var(--navy);font-size:.85rem;">Potencia (%)</div>
+          </div>
+          <div style="background:var(--off);border-radius:6px;padding:10px;text-align:center;">
+            <div style="font-family:var(--ff-mono);font-size:.7rem;color:var(--grey);margin-bottom:4px;">Salida</div>
+            <div style="font-weight:700;color:var(--navy);font-size:.85rem;">Temp (°C)</div>
+          </div>
+          <div style="background:var(--off);border-radius:6px;padding:10px;text-align:center;">
+            <div style="font-family:var(--ff-mono);font-size:.7rem;color:var(--grey);margin-bottom:4px;">Muestreo</div>
+            <div style="font-weight:700;color:var(--navy);font-size:.85rem;">400 ms</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:var(--white);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);border-left:4px solid var(--gold-d);">
+        <p style="font-family:var(--ff-mono);font-size:.72rem;color:var(--gold-d);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;">⚙️ Sistema de Posicionamiento</p>
+        <p style="font-size:.88rem;color:var(--grey);margin-bottom:12px;">La planta mecánica fue caracterizada usando como entrada el ciclo de trabajo PWM del motor DC y como salida la posición obtenida del encoder incremental. El modelo identificado permitió diseñar un controlador digital con precisión de posicionamiento adecuada al proceso.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;">
+          <div style="background:var(--off);border-radius:6px;padding:10px;text-align:center;">
+            <div style="font-family:var(--ff-mono);font-size:.7rem;color:var(--grey);margin-bottom:4px;">Entrada</div>
+            <div style="font-weight:700;color:var(--navy);font-size:.85rem;">PWM (%)</div>
+          </div>
+          <div style="background:var(--off);border-radius:6px;padding:10px;text-align:center;">
+            <div style="font-family:var(--ff-mono);font-size:.7rem;color:var(--grey);margin-bottom:4px;">Salida</div>
+            <div style="font-weight:700;color:var(--navy);font-size:.85rem;">Posición (mm)</div>
+          </div>
+          <div style="background:var(--off);border-radius:6px;padding:10px;text-align:center;">
+            <div style="font-family:var(--ff-mono);font-size:.7rem;color:var(--grey);margin-bottom:4px;">Encoder</div>
+            <div style="font-weight:700;color:var(--navy);font-size:.85rem;">1632 p/rev</div>
+          </div>
+          <div style="background:var(--off);border-radius:6px;padding:10px;text-align:center;">
+            <div style="font-family:var(--ff-mono);font-size:.7rem;color:var(--grey);margin-bottom:4px;">Muestreo</div>
+            <div style="font-weight:700;color:var(--navy);font-size:.85rem;">10 ms</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTROL DE TEMPERATURA -->
+    <h3 style="font-family:var(--ff-head);color:var(--navy);font-size:1.2rem;margin-bottom:16px;">2. Control de Temperatura</h3>
+
+    <div style="background:var(--off);border-radius:var(--radius);padding:18px 24px;border-left:4px solid var(--blue);margin-bottom:24px;">
+      <p style="font-weight:700;color:var(--navy);font-size:.9rem;margin-bottom:8px;">Controlador PI Discreto</p>
+      <p style="font-size:.88rem;color:var(--grey);margin-bottom:12px;">La acción <strong style="color:var(--navy);">proporcional</strong> mejora la velocidad de respuesta del sistema, mientras que la acción <strong style="color:var(--navy);">integral</strong> elimina el error estacionario producido por perturbaciones térmicas y pérdidas de calor.</p>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;">
+        <div style="background:var(--white);border-radius:6px;padding:10px 18px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow);">
+          <span style="font-size:1.2rem;">🎯</span>
+          <div>
+            <div style="font-family:var(--ff-mono);font-size:.7rem;color:var(--grey);">Referencia Zona 1</div>
+            <div style="font-weight:700;color:var(--blue);font-size:.95rem;">160 °C</div>
+          </div>
+        </div>
+        <div style="background:var(--white);border-radius:6px;padding:10px 18px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow);">
+          <span style="font-size:1.2rem;">🎯</span>
+          <div>
+            <div style="font-family:var(--ff-mono);font-size:.7rem;color:var(--grey);">Referencia Zona 2</div>
+            <div style="font-weight:700;color:var(--blue);font-size:.95rem;">200 °C</div>
+          </div>
+        </div>
+        <div style="background:var(--white);border-radius:6px;padding:10px 18px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow);">
+          <span style="font-size:1.2rem;">⏱️</span>
+          <div>
+            <div style="font-family:var(--ff-mono);font-size:.7rem;color:var(--grey);">Tiempo de muestreo</div>
+            <div style="font-weight:700;color:var(--blue);font-size:.95rem;">400 ms</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--off);border-radius:var(--radius);padding:18px 24px;border-left:4px solid var(--sky);margin-bottom:24px;">
+      <p style="font-weight:700;color:var(--navy);font-size:.9rem;margin-bottom:8px;">⚡ Accionamiento SSR — Time Proportional Control (TPC)</p>
+      <p style="font-size:.88rem;color:var(--grey);margin-bottom:12px;">La salida del controlador no se aplica mediante PWM de alta frecuencia, sino mediante una estrategia de <strong style="color:var(--navy);">Time Proportional Control (TPC)</strong>. La potencia calculada se transforma en un porcentaje de tiempo de encendido dentro de una ventana fija de <strong style="color:var(--navy);">2 segundos</strong>.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <div style="background:var(--white);border-radius:6px;padding:10px 16px;box-shadow:var(--shadow);font-size:.85rem;">
+          <span style="font-family:var(--ff-mono);color:var(--blue);font-weight:700;">25%</span>
+          <span style="color:var(--grey);margin-left:8px;">→ 0.5 s ON · 1.5 s OFF</span>
+        </div>
+        <div style="background:var(--white);border-radius:6px;padding:10px 16px;box-shadow:var(--shadow);font-size:.85rem;">
+          <span style="font-family:var(--ff-mono);color:var(--blue);font-weight:700;">50%</span>
+          <span style="color:var(--grey);margin-left:8px;">→ 1.0 s ON · 1.0 s OFF</span>
+        </div>
+        <div style="background:var(--white);border-radius:6px;padding:10px 16px;box-shadow:var(--shadow);font-size:.85rem;">
+          <span style="font-family:var(--ff-mono);color:var(--blue);font-weight:700;">75%</span>
+          <span style="color:var(--grey);margin-left:8px;">→ 1.5 s ON · 0.5 s OFF</span>
+        </div>
+        <div style="background:var(--white);border-radius:6px;padding:10px 16px;box-shadow:var(--shadow);font-size:.85rem;">
+          <span style="font-family:var(--ff-mono);color:var(--blue);font-weight:700;">100%</span>
+          <span style="color:var(--grey);margin-left:8px;">→ 2.0 s ON · 0.0 s OFF</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="advances-grid" style="margin-bottom:48px;">
+      <div class="advance-card">
+        <div class="advance-header">
+          <span class="icon">📐</span>
+          <h3>Función de transferencia</h3>
+        </div>
+        <div class="advance-body">
+          <p>Modelo matemático obtenido mediante identificación experimental del sistema térmico. Relaciona la señal de control (duty cycle SSR) con la temperatura del barril, permitiendo el diseño del controlador PI discreto.</p>
+          <img src="funcion_transferencia.png" alt="Función de transferencia del sistema térmico"
+            style="width:100%;height:240px;object-fit:contain;object-position:center;background:#fff;border-radius:var(--radius);margin-top:12px;box-shadow:var(--shadow);">
+        </div>
+      </div>
+      <div class="advance-card">
+        <div class="advance-header">
+          <span class="icon">📈</span>
+          <h3>Respuesta en lazo cerrado</h3>
+        </div>
+        <div class="advance-body">
+          <p>Gráfica de la respuesta del sistema con el controlador PI activo. Muestra el seguimiento del setpoint, tiempo de establecimiento y error en estado estacionario logrado durante las pruebas experimentales.</p>
+          <img src="grafica_lazo_cerrado.png" alt="Respuesta en lazo cerrado"
+            style="width:100%;height:240px;object-fit:contain;object-position:center;background:#fff;border-radius:var(--radius);margin-top:12px;box-shadow:var(--shadow);">
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTROL DE MOTOR -->
+    <h3 style="font-family:var(--ff-head);color:var(--navy);font-size:1.2rem;margin-bottom:16px;">3. Control de Motor</h3>
+    <div style="background:var(--off);border-radius:var(--radius);padding:18px 24px;border-left:4px solid var(--gold-d);margin-bottom:24px;">
+      <p style="font-size:.88rem;color:var(--grey);">Control del motor DC del sistema de cierre mediante señal PWM generada por el ESP32. Se realizó la identificación experimental para obtener la relación entre el ciclo de trabajo aplicado y la posición resultante medida por encoder incremental de <strong style="color:var(--navy);">1632 pulsos/rev</strong>, con tiempo de muestreo de <strong style="color:var(--navy);">10 ms</strong>.</p>
+    </div>
+    <div class="advances-grid">
+      <div class="advance-card">
+        <div class="advance-header">
+          <span class="icon">🔍</span>
+          <h3>Identificación del motor</h3>
+        </div>
+        <div class="advance-body">
+          <p>Prueba de identificación experimental del motor DC. Se aplican escalones de señal PWM y se registra la respuesta de posición para obtener el modelo dinámico del actuador y ajustar el lazo de control.</p>
+          <img src="ident_motor.png" alt="Identificación del motor DC"
+            style="width:100%;height:240px;object-fit:contain;object-position:center;background:#fff;border-radius:var(--radius);margin-top:12px;box-shadow:var(--shadow);">
+        </div>
+      </div>
+      <div class="advance-card">
+        <div class="advance-header">
+          <span class="icon">📊</span>
+          <h3>PWM vs. posición del motor</h3>
+        </div>
+        <div class="advance-body">
+          <p>Gráfica que relaciona el ciclo de trabajo PWM aplicado al driver con la posición medida por encoder. Permite caracterizar la ganancia estática del actuador y verificar la linealidad de la respuesta en el rango de operación.</p>
+          <img src="pwm_angulo_motor.png" alt="PWM vs posición del motor"
+            style="width:100%;height:240px;object-fit:contain;object-position:center;background:#fff;border-radius:var(--radius);margin-top:12px;box-shadow:var(--shadow);">
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════ IA ══════════ -->
+<section class="block alt" id="ia">
+  <div class="container">
+    <span class="sec-label">Visión por computadora</span>
+    <h2 class="sec-title">Módulo de Inteligencia Artificial</h2>
+    <div class="sec-line"></div>
+    <p class="sec-desc">Sistema híbrido de clasificación de plásticos que combina detección de objetos con YOLOv8 y clasificación CNN con TensorFlow, operando en tiempo real sobre Raspberry Pi 4.</p>
+
+    <div class="ia-flow">
+      <div class="ia-step">
+        <div class="icon">📷</div>
+        <h4>Captura</h4>
+        <p>Cámara + OpenCV en tiempo real</p>
+      </div>
+      <div class="ia-arrow">→</div>
+      <div class="ia-step">
+        <div class="icon">🔍</div>
+        <h4>Detección</h4>
+        <p>YOLOv8 identifica bounding box</p>
+      </div>
+      <div class="ia-arrow">→</div>
+      <div class="ia-step">
+        <div class="icon">✂️</div>
+        <h4>ROI</h4>
+        <p>Región de interés recortada</p>
+      </div>
+      <div class="ia-arrow">→</div>
+      <div class="ia-step">
+        <div class="icon">🧠</div>
+        <h4>Clasificación</h4>
+        <p>CNN TensorFlow determina material</p>
+      </div>
+      <div class="ia-arrow">→</div>
+      <div class="ia-step">
+        <div class="icon">⚙️</div>
+        <h4>Actuación</h4>
+        <p>ESP32 ajusta parámetros automáticamente</p>
+      </div>
+    </div>
+
+    <div class="model-stats">
+      <div class="stat-card">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Clases de plástico: PET, PP, PS</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">80/20</div>
+        <div class="stat-label">Split entrenamiento / validación</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">15</div>
+        <div class="stat-label">Épocas de entrenamiento</div>
+      </div>
+    </div>
+
+    <div style="margin-top:28px;" class="advances-grid">
+      <div>
+        <h3 style="font-family:var(--ff-head);color:var(--navy);margin-bottom:16px;">Arquitectura del modelo</h3>
+        <table class="specs-table">
+          <thead><tr><th>Componente</th><th>Detalle</th></tr></thead>
+          <tbody>
+            <tr><td>Framework</td><td>TensorFlow + Keras</td></tr>
+            <tr><td>Arquitectura CNN</td><td>128 neuronas</td></tr>
+            <tr><td>Optimizador</td><td>Adam</td></tr>
+            <tr><td>Función de pérdida</td><td>Sparse categorical crossentropy</td></tr>
+            <tr><td>Detector</td><td>YOLOv8 (Roboflow)</td></tr>
+            <tr><td>Ponderación</td><td>YOLO 30% · TensorFlow 70%</td></tr>
+            <tr><td>Formato guardado</td><td>.h5</td></tr>
+            <tr><td>Interfaz</td><td>Tkinter + OpenCV</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h3 style="font-family:var(--ff-head);color:var(--navy);margin-bottom:16px;">Dataset y etiquetado</h3>
+        <img src="roboflow_labels.png" alt="Bounding boxes en Roboflow" style="width:100%;border-radius:var(--radius);margin-bottom:16px;">
+        <img src="accuracy_plot.png" alt="Gráfica accuracy por épocas" style="width:100%;border-radius:var(--radius);">
+      </div>
+    </div>
+    <!-- VIDEOS DE DETECCIÓN IA -->
+    <h3 style="font-family:var(--ff-head);color:var(--navy);font-size:1.2rem;margin:40px 0 16px;">Demos de detección en tiempo real</h3>
+    <div class="advances-grid">
+
+      <div class="advance-card">
+        <div class="advance-header">
+          <span class="icon">🎬</span>
+          <h3>Detección de PS y PP</h3>
+        </div>
+        <div class="advance-body">
+          <p>El modelo híbrido YOLOv8 + TensorFlow identifica en tiempo real fragmentos de PS (poliestireno) y PP (polipropileno), generando el bounding box y clasificando el material con su porcentaje de confianza.</p>
+          <div style="margin-top:12px;background:#000;border-radius:var(--radius);overflow:hidden;position:relative;">
+            <video
+              controls
+              style="width:100%;display:block;border-radius:var(--radius);"
+              poster=""
+            >
+              <source src="deteccion_ps_pp.mp4" type="video/mp4">
+              <p style="color:#fff;text-align:center;padding:40px;font-size:.85rem;">
+                Tu navegador no soporta video HTML5.<br>
+                <a href="deteccion_ps_pp.mp4" style="color:var(--gold);">Descargar video</a>
+              </p>
+            </video>
+          </div>
+          <div style="margin-top:10px;background:var(--off);border-radius:6px;padding:10px 14px;font-size:.8rem;color:var(--grey);display:flex;gap:10px;align-items:center;">
+            <span style="background:var(--blue);color:#fff;padding:2px 8px;border-radius:4px;font-family:var(--ff-mono);font-size:.7rem;">PS</span>
+            <span style="background:#7B2FBE;color:#fff;padding:2px 8px;border-radius:4px;font-family:var(--ff-mono);font-size:.7rem;">PP</span>
+            <span>Clasificación en tiempo real · Raspberry Pi 4</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="advance-card">
+        <div class="advance-header">
+          <span class="icon">🎬</span>
+          <h3>Detección de PET</h3>
+        </div>
+        <div class="advance-body">
+          <p>Demostración de la detección de PET (polietileno tereftalato) reciclado. El sistema identifica el material, lo clasifica y envía automáticamente los parámetros de temperatura correspondientes al ESP32.</p>
+          <div style="margin-top:12px;background:#000;border-radius:var(--radius);overflow:hidden;position:relative;">
+            <video
+              controls
+              style="width:100%;display:block;border-radius:var(--radius);"
+              poster=""
+            >
+              <source src="deteccion_pet.mp4" type="video/mp4">
+              <p style="color:#fff;text-align:center;padding:40px;font-size:.85rem;">
+                Tu navegador no soporta video HTML5.<br>
+                <a href="deteccion_pet.mp4" style="color:var(--gold);">Descargar video</a>
+              </p>
+            </video>
+          </div>
+          <div style="margin-top:10px;background:var(--off);border-radius:6px;padding:10px 14px;font-size:.8rem;color:var(--grey);display:flex;gap:10px;align-items:center;">
+            <span style="background:#1a7a4a;color:#fff;padding:2px 8px;border-radius:4px;font-family:var(--ff-mono);font-size:.7rem;">PET</span>
+            <span>Setpoint automático: 260 °C · Zona 2</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ GANTT ══════════ -->
+<section class="block dark" id="gantt">
+  <div class="container">
+    <span class="sec-label">Planificación temporal</span>
+    <h2 class="sec-title">Diagrama de Gantt</h2>
+    <div class="sec-line"></div>
+    <p class="sec-desc">Cronograma del proyecto desde el inicio en febrero 2026 hasta la entrega final el 3 de junio de 2026.</p>
+
+    <div class="gantt-wrap">
+      <div class="gantt-header">📅 Cronograma – Inyectora de Plástico Reciclado · 2026</div>
+
+      <!-- Month headers -->
+      <div style="display:grid;grid-template-columns:220px 1fr;">
+        <div style="background:var(--blue);padding:8px 16px;font-size:.72rem;font-family:var(--ff-mono);color:var(--white);font-weight:600;letter-spacing:.06em;text-transform:uppercase;">Actividad</div>
+        <div class="gantt-months">
+          <div class="gantt-month">Feb</div>
+          <div class="gantt-month">Mar</div>
+          <div class="gantt-month">Abr</div>
+          <div class="gantt-month">May</div>
+          <div class="gantt-month">Jun</div>
+        </div>
+      </div>
+
+      <!-- Rows -->
+      <div class="gantt-body">
+
+        <!-- MECÁNICA -->
+        <div class="gantt-row" style="background:#f8f9fc;">
+          <div class="gantt-task" style="background:#e8edf5;font-size:.78rem;color:var(--blue);font-weight:800;text-transform:uppercase;letter-spacing:.06em;">
+            <span class="area-dot" style="background:var(--blue)"></span>MECÁNICA
+          </div>
+          <div class="gantt-bars" style="background:#f0f3f8;"></div>
+        </div>
+        <div class="gantt-row">
+          <div class="gantt-task"><span class="area-dot" style="background:#3A9BD5"></span>Diseño CAD sistema inyección</div>
+          <div class="gantt-bars">
+            <div class="gantt-cell"><div class="gantt-bar bar-mec">CAD</div></div>
+            <div class="gantt-cell"><div class="gantt-bar bar-mec"></div></div>
+            <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
+          </div>
+        </div>
+        <div class="gantt-row">
+          <div class="gantt-task"><span class="area-dot" style="background:#3A9BD5"></span>Fabricación tornillo + barril</div>
+          <div class="gantt-bars">
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"><div class="gantt-bar bar-mec">Fab.</div></div>
+            <div class="gantt-cell"><div class="gantt-bar bar-mec"></div></div>
+            <div class="gantt-cell"></div><div class="gantt-cell"></div>
+          </div>
+        </div>
+        <div class="gantt-row">
+          <div class="gantt-task"><span class="area-dot" style="background:#3A9BD5"></span>Sistema de cierre del molde</div>
+          <div class="gantt-bars">
+            <div class="gantt-cell"></div><div class="gantt-cell"></div>
+            <div class="gantt-cell"><div class="gantt-bar bar-mec">Cierre</div></div>
+            <div class="gantt-cell"><div class="gantt-bar bar-mec"></div></div>
+            <div class="gantt-cell"></div>
+          </div>
+        </div>
+        <div class="gantt-row">
+          <div class="gantt-task"><span class="area-dot" style="background:#3A9BD5"></span>Integración mecánica completa</div>
+          <div class="gantt-bars">
+            <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
+            <div class="gantt-cell"><div class="gantt-bar bar-mec">Integ.</div></div>
+            <div class="gantt-cell"><div class="gantt-bar bar-mec"></div></div>
+          </div>
+        </div>
+
+        <!-- CONTROL -->
+        <div class="gantt-row" style="background:#f8f9fc;">
+          <div class="gantt-task" style="background:#fefae8;font-size:.78rem;color:var(--gold-d);font-weight:800;text-transform:uppercase;letter-spacing:.06em;">
+            <span class="area-dot" style="background:var(--gold-d)"></span>CONTROL
+          </div>
+          <div class="gantt-bars" style="background:#fdf8e6;"></div>
+        </div>
+        <div class="gantt-row">
+          <div class="gantt-task"><span class="area-dot" style="background:var(--gold)"></span>Arquitectura electrónica</div>
+          <div class="gantt-bars">
+            <div class="gantt-cell"><div class="gantt-bar bar-ctrl">Arq.</div></div>
+            <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
+          </div>
+        </div>
+        <div class="gantt-row">
+          <div class="gantt-task"><span class="area-dot" style="background:var(--gold)"></span>Control temperatura PI (ESP32)</div>
+          <div class="gantt-bars">
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"><div class="gantt-bar bar-ctrl">Temp.</div></div>
+            <div class="gantt-cell"><div class="gantt-bar bar-ctrl"></div></div>
+            <div class="gantt-cell"></div><div class="gantt-cell"></div>
+          </div>
+        </div>
+        <div class="gantt-row">
+          <div class="gantt-task"><span class="area-dot" style="background:var(--gold)"></span>Control motor DC + PWM</div>
+          <div class="gantt-bars">
+            <div class="gantt-cell"></div><div class="gantt-cell"></div>
+            <div class="gantt-cell"><div class="gantt-bar bar-ctrl">Motor</div></div>
+            <div class="gantt-cell"><div class="gantt-bar bar-ctrl"></div></div>
+            <div class="gantt-cell"></div>
+          </div>
+        </div>
+        <div class="gantt-row">
+          <div class="gantt-task"><span class="area-dot" style="background:var(--gold)"></span>Interfaz WebSocket + HMI</div>
+          <div class="gantt-bars">
+            <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
+            <div class="gantt-cell"><div class="gantt-bar bar-ctrl">HMI</div></div>
+            <div class="gantt-cell"></div>
+          </div>
+        </div>
+
+        <!-- IA -->
+        <div class="gantt-row" style="background:#f8f9fc;">
+          <div class="gantt-task" style="background:#eaf7f0;font-size:.78rem;color:#1a7a4a;font-weight:800;text-transform:uppercase;letter-spacing:.06em;">
+            <span class="area-dot" style="background:#1a7a4a"></span>INTELIGENCIA ARTIFICIAL
+          </div>
+          <div class="gantt-bars" style="background:#f0faf5;"></div>
+        </div>
+        <div class="gantt-row">
+          <div class="gantt-task"><span class="area-dot" style="background:#2ecc71"></span>Construcción dataset PET/PP/PS</div>
+          <div class="gantt-bars">
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"><div class="gantt-bar bar-ia">Dataset</div></div>
+            <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
+          </div>
+        </div>
+        <div class="gantt-row">
+          <div class="gantt-task"><span class="area-dot" style="background:#2ecc71"></span>Etiquetado Roboflow + YOLOv8</div>
+          <div class="gantt-bars">
+            <div class="gantt-cell"></div>
+            <div class="gantt-cell"><div class="gantt-bar bar-ia">Label</div></div>
+            <div class="gantt-cell"><div class="gantt-bar bar-ia"></div></div>
+            <div class="gantt-cell"></div><div class="gantt-cell"></div>
+          </div>
+        </div>
+        <div class="gantt-row">
+          <div class="gantt-task"><span class="area-dot" style="background:#2ecc71"></span>Entrenamiento CNN TensorFlow</div>
+          <div class="gantt-bars">
+            <div class="gantt-cell"></div><div class="gantt-cell"></div>
+            <div class="gantt-cell"><div class="gantt-bar bar-ia">Train</div></div>
+            <div class="gantt-cell"></div><div class="gantt-cell"></div>
+          </div>
+        </div>
+        <div class="gantt-row">
+          <div class="gantt-task"><span class="area-dot" style="background:#2ecc71"></span>Integración IA ↔ ESP32</div>
+          <div class="gantt-bars">
+            <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
+            <div class="gantt-cell"><div class="gantt-bar bar-ia">Integ.</div></div>
+            <div class="gantt-cell"></div>
+          </div>
+        </div>
+
+        <!-- INTEGRACIÓN -->
+        <div class="gantt-row" style="background:#f8f9fc;">
+          <div class="gantt-task" style="background:#f3eeff;font-size:.78rem;color:#7B2FBE;font-weight:800;text-transform:uppercase;letter-spacing:.06em;">
+            <span class="area-dot" style="background:#7B2FBE"></span>INTEGRACIÓN & VALIDACIÓN
+          </div>
+          <div class="gantt-bars" style="background:#f8f3ff;"></div>
+        </div>
+        <div class="gantt-row">
+          <div class="gantt-task"><span class="area-dot" style="background:#A855F7"></span>Integración subsistemas</div>
+          <div class="gantt-bars">
+            <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
+            <div class="gantt-cell"><div class="gantt-bar bar-int">Integ.</div></div>
+            <div class="gantt-cell"></div>
+          </div>
+        </div>
+        <div class="gantt-row">
+          <div class="gantt-task"><span class="area-dot" style="background:#A855F7"></span>Pruebas funcionales completas</div>
+          <div class="gantt-bars">
+            <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
+            <div class="gantt-cell"><div class="gantt-bar bar-int"></div></div>
+            <div class="gantt-cell"><div class="gantt-bar bar-val">⚑ Entrega 3 Jun</div></div>
+          </div>
+        </div>
+
+      </div><!-- gantt-body -->
+
+      <div class="gantt-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:linear-gradient(90deg,#0057A8,#3A9BD5)"></div>Mecánica</div>
+        <div class="legend-item"><div class="legend-dot" style="background:linear-gradient(90deg,#C9A000,#F5C200)"></div>Control</div>
+        <div class="legend-item"><div class="legend-dot" style="background:linear-gradient(90deg,#1a7a4a,#2ecc71)"></div>IA</div>
+        <div class="legend-item"><div class="legend-dot" style="background:linear-gradient(90deg,#7B2FBE,#A855F7)"></div>Integración</div>
+        <div class="legend-item"><div class="legend-dot" style="background:linear-gradient(90deg,#C0392B,#E74C3C)"></div>Entrega final</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FINANCIERO ══════════ -->
+
+<section class="block" id="financiero">
+  <div class="container">
+    <span class="sec-label">Viabilidad económica</span>
+    <h2 class="sec-title">Análisis Financiero</h2>
+    <div class="sec-line"></div>
+    <p class="sec-desc">Estimación de costos por unidad del prototipo, desagregada por categoría de componentes.</p>
+
+    <div class="cost-grid">
+      <div class="cost-category">
+        <div class="cost-cat-header">⚡ Electrónica</div>
+        <div class="cost-item"><span class="name">ESP32 (×1)</span><span class="price">$29.730</span></div>
+        <div class="cost-item"><span class="name">Termopares tipo K (×5)</span><span class="price">$95.040</span></div>
+        <div class="cost-item"><span class="name">Driver TB6600 (×2)</span><span class="price">$147.539</span></div>
+        <div class="cost-item"><span class="name">Relés SSR (×3)</span><span class="price">$76.148</span></div>
+        <div class="cost-item"><span class="name">Fuente 24V</span><span class="price">$90.396</span></div>
+        <div class="cost-item"><span class="name">Cableado y cables USB</span><span class="price">$46.044</span></div>
+        <div class="cost-item"><span class="name">Resistencias 110V 250W (×2)</span><span class="price">$146.667</span></div>
+        <div class="cost-item"><span class="name">Cámara Raspberry Pi</span><span class="price">$57.250</span></div>
+        <div class="cost-item"><span class="name">PCB</span><span class="price">$26.700</span></div>
+        <div class="cost-item"><span class="name">Módulo y PT100</span><span class="price">$42.000</span></div>
+        <div class="cost-item"><span class="name">Resistencia de molde</span><span class="price">$18.000</span></div>
+      </div>
+
+      <div class="cost-category">
+        <div class="cost-cat-header">🔩 Estructura y Mecánica</div>
+        <div class="cost-item"><span class="name">Placas hierro 120×120 (×8)</span><span class="price">$27.648</span></div>
+        <div class="cost-item"><span class="name">Perfiles (×6)</span><span class="price">$57.024</span></div>
+        <div class="cost-item"><span class="name">Tornillería (×20)</span><span class="price">$110.592</span></div>
+        <div class="cost-item"><span class="name">Rodamientos (×3)</span><span class="price">$60.264</span></div>
+        <div class="cost-item"><span class="name">Husillo</span><span class="price">$16.070</span></div>
+        <div class="cost-item"><span class="name">Tornillo de paso</span><span class="price">$16.070</span></div>
+        <div class="cost-item"><span class="name">Boquilla duraluminio</span><span class="price">$5.022</span></div>
+        <div class="cost-item"><span class="name">Tolva</span><span class="price">$30.132</span></div>
+        <div class="cost-item"><span class="name">Materiales Zamux</span><span class="price">$66.374</span></div>
+        <div class="cost-item"><span class="name">Pintura y acabados</span><span class="price">$10.000</span></div>
+      </div>
+
+      <div class="cost-category">
+        <div class="cost-cat-header">⚡ Actuadores</div>
+        <div class="cost-item"><span class="name">Motores NEMA 23 (×2)</span><span class="price">$429.278</span></div>
+        <div class="cost-item"><span class="name">Sistema poleas + correas (×2)</span><span class="price">$64.282</span></div>
+      </div>
+
+      <div class="cost-category">
+        <div class="cost-cat-header">💻 Software & IA</div>
+        <div class="cost-item"><span class="name">Raspberry Pi 4</span><span class="price">$311.786</span></div>
+        <div class="cost-item"><span class="name">Conversor micro HDMI</span><span class="price">$9.039</span></div>
+        <div class="cost-item"><span class="name">SD 16GB</span><span class="price">$25.110</span></div>
+        <div class="cost-item"><span class="name">HMI Touchscreen 3.5"</span><span class="price">$146.704</span></div>
+      </div>
+    </div>
+
+    <!-- TOTALES -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;margin-top:28px;">
+      <div class="total-banner" style="margin-top:0;">
+        <div>
+          <h3>Materiales / unidad</h3>
+          <small>Componentes y materiales del prototipo</small>
+        </div>
+        <div class="amount" style="font-size:1.6rem;">$2.597.287</div>
+      </div>
+      <div class="total-banner" style="margin-top:0;background:linear-gradient(135deg,#1a4a2e,#1a7a4a);">
+        <div>
+          <h3>Mano de obra / unidad</h3>
+          <small>~300 h de trabajo del equipo (6 ingenieros)</small>
+        </div>
+        <div class="amount" style="font-size:1.6rem;">$1.563.493</div>
+      </div>
+      <div class="total-banner" style="margin-top:0;background:linear-gradient(135deg,#4a3a00,#C9A000);">
+        <div>
+          <h3>Overhead variable / unidad</h3>
+          <small>Costos indirectos y gastos operativos</small>
+        </div>
+        <div class="amount" style="font-size:1.6rem;">$524.242</div>
+      </div>
+      <div class="total-banner" style="margin-top:0;background:linear-gradient(135deg,#1a0a3a,#7B2FBE);">
+        <div>
+          <h3>Costo variable / unidad</h3>
+          <small>Total consolidado por unidad producida</small>
+        </div>
+        <div class="amount" style="font-size:1.8rem;">$4.685.022</div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px;background:var(--off);border-radius:var(--radius);padding:16px 22px;border-left:4px solid var(--gold-d);">
+      <p style="font-size:.87rem;color:var(--grey);">
+        <strong style="color:var(--navy);">📌 Nota:</strong> El costo variable por unidad (~$4.69M COP) incluye materiales, 
+        mano de obra valorada a tarifa de practicante de ingeniería (~$15.000/h) y costos de overhead. 
+        Frente a maquinaria industrial equivalente (>$50M COP), el prototipo representa una alternativa 
+        competitiva para pequeños talleres de manufactura local.
+      </p>
+    </div>
+
+    <div style="margin-top:16px;background:var(--white);border-radius:var(--radius);padding:18px 24px;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+      <div>
+        <p style="font-family:var(--ff-mono);font-size:.72rem;color:var(--blue);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;">📊 Detalle completo de gastos</p>
+        <p style="font-size:.87rem;color:var(--grey);">Registro detallado de compras, facturas y distribución de costos por integrante.</p>
+      </div>
+      <a href="https://docs.google.com/spreadsheets/d/1ck0M1diaws5hg1E-_bMMIqlT5fZcH_Y2/edit?usp=sharing&ouid=117423635327847920367&rtpof=true&sd=true"
+         target="_blank"
+         style="display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--navy),var(--blue));color:var(--white);font-family:var(--ff-mono);font-size:.82rem;font-weight:700;letter-spacing:.08em;padding:12px 24px;border-radius:var(--radius);text-decoration:none;box-shadow:var(--shadow-lg);transition:transform .2s;text-transform:uppercase;"
+         onmouseover="this.style.transform='translateY(-2px)'"
+         onmouseout="this.style.transform='translateY(0)'">
+        📋 Ver hoja de cálculo
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════ RESULTADOS ══════════ -->
+<section class="block alt" id="resultados">
+  <div class="container">
+    <span class="sec-label">Tercer corte · Junio 2026</span>
+    <h2 class="sec-title">Resultados y Pruebas Finales</h2>
+    <div class="sec-line"></div>
+    <p class="sec-desc">Evidencias experimentales del sistema integrado. Esta sección se completa con los resultados de pruebas finales antes de la entrega del 3 de junio de 2026.</p>
+
+    <div class="advances-grid">
+      <div class="advance-card">
+        <div class="advance-header"><span class="icon">🧪</span><h3>Prueba de inyección con PP</h3></div>
+        <div class="advance-body">
+          <img src="prueba_pp.png" alt="Sistema ensamblado final" style="width:100%;border-radius:var(--radius);">
+          <p style="margin-top:12px;">Registro de temperatura, presión y tiempo de ciclo durante la primera inyección funcional.</p>
+        </div>
+      </div>
+
+      <div class="advance-card">
+        <div class="advance-header"><span class="icon">🏭</span><h3>Plástico saliendo por la boquilla</h3></div>
+        <div class="advance-body">
+          <video controls style="width:100%;border-radius:var(--radius);display:block;">
+            <source src="plastico_boquilla.mp4" type="video/mp4">
+            <a href="plastico_boquilla.mp4" style="color:var(--blue);">Descargar video</a>
+          </video>
+          <p style="margin-top:12px;">Material fundido fluyendo a través de la boquilla con control PI activo a 260 °C.</p>
+        </div>
+      </div>
+
+      <div class="advance-card">
+        <div class="advance-header"><span class="icon">📊</span><h3>Curva de temperatura vs. tiempo</h3></div>
+        <div class="advance-body">
+          <img src="curva_temp.png" alt="Curva de temperatura vs. tiempo" style="width:100%;border-radius:var(--radius);">
+          <p style="margin-top:12px;">Respuesta del sistema de control PI durante el calentamiento hasta setpoint de 260 °C.</p>
+        </div>
+      </div>
+      <div class="advance-card">
+        <div class="advance-header"><span class="icon">🤖</span><h3>Desempeño del modelo IA</h3></div>
+        <div class="advance-body">
+          <img src="confusion_matrix.png" alt="Matriz de confusión del clasificador" style="width:100%;border-radius:var(--radius);">
+          <p style="margin-top:12px;">Precisión final del modelo híbrido YOLOv8 + TensorFlow sobre el set de validación.</p>
+        </div>
+      </div>
+      
+      <div class="advance-card" style="grid-column:1 / -1;">
+        <div class="advance-header"><span class="icon">🏗️</span><h3>Sistema ensamblado final</h3></div>
+        <div class="advance-body">
+          <img src="inyectora_final.png" alt="Sistema ensamblado final" style="width:100%;border-radius:var(--radius);">
+          <p style="margin-top:12px;">Vista general del prototipo integrado con todos los subsistemas operativos.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════ INCONVENIENTES ══════════ -->
+<section class="block alt" id="inconvenientes">
+  <div class="container">
+    <span class="sec-label">Lecciones aprendidas</span>
+    <h2 class="sec-title">Inconvenientes Durante el Proceso</h2>
+    <div class="sec-line"></div>
+    <p class="sec-desc">El desarrollo del prototipo implicó enfrentar problemas reales de fabricación e integración que no fueron anticipados en el diseño inicial. Cada inconveniente derivó en una solución concreta y en aprendizajes que fortalecieron el resultado final.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;">
+
+      <div class="icon-card" style="border-top:4px solid #E74C3C;">
+        <div class="icon">🔧</div>
+        <h3>Boquilla en aluminio no soldable</h3>
+        <p style="color:var(--grey);font-size:.9rem;margin-bottom:12px;">
+          <strong style="color:#C0392B;">Problema:</strong> La boquilla fue mecanizada en duraluminio por su facilidad de maquinado. Al intentar unirla al tubo del barril mediante soldadura, el aluminio no permitió una unión confiable con el acero, generando fugas potenciales en la interfaz.
+        </p>
+        <p style="color:var(--grey);font-size:.9rem;margin-bottom:12px;">
+          <strong style="color:#1a7a4a;">Solución:</strong> Se rediseñó y fabricó una nueva boquilla en acero compatible con el tubo, permitiendo unión por rosca y soldadura correcta, repitiendo el proceso de mecanizado en torno convencional.
+        </p>
+        <div style="background:var(--off);border-radius:6px;padding:10px 14px;font-size:.8rem;color:var(--grey);border-left:3px solid var(--gold-d);">
+          💡 <strong>Aprendizaje:</strong> La compatibilidad entre materiales para unión debe definirse antes del mecanizado, no durante el ensamble.
+        </div>
+      </div>
+
+      <div class="icon-card" style="border-top:4px solid #E74C3C;">
+        <div class="icon">🌡️</div>
+        <h3>Molde grueso: plástico se estancaba</h3>
+        <p style="color:var(--grey);font-size:.9rem;margin-bottom:12px;">
+          <strong style="color:#C0392B;">Problema:</strong> El espesor del molde provocaba una pérdida de temperatura significativa antes de que el plástico fundido alcanzara la cavidad. El material se solidificaba prematuramente en el canal, impidiendo el llenado completo de la pieza.
+        </p>
+        <p style="color:var(--grey);font-size:.9rem;margin-bottom:12px;">
+          <strong style="color:#1a7a4a;">Solución:</strong> Se incorporó una resistencia calefactora adicional directamente sobre el molde para mantener la temperatura en la zona de transición y evitar la solidificación temprana del polímero durante el recorrido.
+        </p>
+        <div style="background:var(--off);border-radius:6px;padding:10px 14px;font-size:.8rem;color:var(--grey);border-left:3px solid var(--gold-d);">
+          💡 <strong>Aprendizaje:</strong> El análisis térmico debe incluir la simulación del gradiente de temperatura a lo largo del canal, no solo en la cavidad.
+        </div>
+      </div>
+
+      <div class="icon-card" style="border-top:4px solid #E74C3C;">
+        <div class="icon">🌡️</div>
+        <h3>Termopares tipo K incompatibles directamente</h3>
+        <p style="color:var(--grey);font-size:.9rem;margin-bottom:12px;">
+          <strong style="color:#C0392B;">Problema:</strong> Inicialmente se planeó usar termopares tipo K conectados directamente al ESP32 para la lectura de temperatura. Sin embargo, la señal analógica de los termopares tipo K es demasiado pequeña (~41 µV/°C) y ruidosa para ser leída de forma confiable sin acondicionamiento de señal adecuado.
+        </p>
+        <p style="color:var(--grey);font-size:.9rem;margin-bottom:12px;">
+          <strong style="color:#1a7a4a;">Solución:</strong> Se migró a sensores PT100 con módulos amplificadores MAX31865 via SPI, que ofrecen mayor precisión, estabilidad y comunicación digital directa con el microcontrolador, eliminando el ruido de la señal analógica.
+        </p>
+        <div style="background:var(--off);border-radius:6px;padding:10px 14px;font-size:.8rem;color:var(--grey);border-left:3px solid var(--gold-d);">
+          💡 <strong>Aprendizaje:</strong> Los sensores de temperatura industriales requieren módulos de acondicionamiento. Nunca conectar termopares tipo K directamente a un microcontrolador sin amplificador.
+        </div>
+      </div>
+
+      <div class="icon-card" style="border-top:4px solid #E74C3C;">
+        <div class="icon">⚙️</div>
+        <h3>Tensión de correa insuficiente para el motor</h3>
+        <p style="color:var(--grey);font-size:.9rem;margin-bottom:12px;">
+          <strong style="color:#C0392B;">Problema:</strong> La tensión inicial de la correa dentada del sistema de transmisión por poleas no era suficiente para transmitir el torque del motor NEMA 23 al tornillo. La correa patinaba bajo carga, impidiendo el movimiento efectivo del husillo durante la plastificación.
+        </p>
+        <p style="color:var(--grey);font-size:.9rem;margin-bottom:12px;">
+          <strong style="color:#1a7a4a;">Solución:</strong> Se ajustó la distancia entre centros de las poleas para aumentar la tensión de la correa y se verificó el torque de apriete de los acoples. Con el tensado correcto el sistema transmitió el par de forma suave y sin deslizamiento.
+        </p>
+        <div style="background:var(--off);border-radius:6px;padding:10px 14px;font-size:.8rem;color:var(--grey);border-left:3px solid var(--gold-d);">
+          💡 <strong>Aprendizaje:</strong> El pretensado de correas dentadas es crítico y debe calcularse según la carga máxima esperada, no ajustarse solo visualmente.
+        </div>
+      </div>
+
+      <div class="icon-card" style="border-top:4px solid #E74C3C;">
+        <div class="icon">🔥</div>
+        <h3>Solidificación prematura en la boquilla</h3>
+        <p style="color:var(--grey);font-size:.9rem;margin-bottom:12px;">
+          <strong style="color:#C0392B;">Problema:</strong> El plástico fundido se solidificaba inmediatamente al salir de la boquilla antes de alcanzar la cavidad del molde. La pérdida de calor en la zona de transición entre barril y molde era mayor a la esperada, impidiendo el llenado completo de la pieza.
+        </p>
+        <p style="color:var(--grey);font-size:.9rem;margin-bottom:12px;">
+          <strong style="color:#1a7a4a;">Solución:</strong> Se instaló una resistencia calefactora adicional directamente sobre el molde en la zona de entrada, manteniendo la temperatura del material durante el trayecto y garantizando el flujo continuo hasta llenar la cavidad.
+        </p>
+        <div style="background:var(--off);border-radius:6px;padding:10px 14px;font-size:.8rem;color:var(--grey);border-left:3px solid var(--gold-d);">
+          💡 <strong>Aprendizaje:</strong> El gradiente térmico entre barril y molde debe gestionarse activamente — no basta con calentar el barril si el molde actúa como disipador de calor en el canal de entrada.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Balance -->
+    <div style="margin-top:28px;background:var(--white);border-radius:var(--radius);padding:22px 28px;box-shadow:var(--shadow);display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between;">
+      <div>
+        <p style="font-family:var(--ff-head);font-size:1.1rem;color:var(--navy);margin-bottom:4px;">Balance de inconvenientes</p>
+        <p style="font-size:.85rem;color:var(--grey);">Todos resueltos satisfactoriamente antes de la entrega final.</p>
+      </div>
+      <div style="display:flex;gap:20px;flex-wrap:wrap;">
+        <div style="text-align:center;">
+          <div style="font-family:var(--ff-head);font-size:2rem;font-weight:700;color:#E74C3C;">5</div>
+          <div style="font-size:.75rem;color:var(--grey);">Inconvenientes<br>identificados</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:var(--ff-head);font-size:2rem;font-weight:700;color:#1a7a4a;">5</div>
+          <div style="font-size:.75rem;color:var(--grey);">Soluciones<br>implementadas</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:var(--ff-head);font-size:2rem;font-weight:700;color:var(--gold-d);">~$86K</div>
+          <div style="font-size:.75rem;color:var(--grey);">Costo adicional<br>por correcciones</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════ CONCLUSIONES ══════════ -->
+<section class="block dark" id="conclusiones">
+  <div class="container">
+    <span class="sec-label">Cierre del proyecto</span>
+    <h2 class="sec-title">Conclusiones</h2>
+    <div class="sec-line"></div>
+    <div class="concl-grid">
+      <div class="concl-card">
+        <div class="concl-num">01</div>
+        <p>El diseño mecatrónico integrado cumple con los requerimientos funcionales planteados, logrando un prototipo de bajo costo (~$1.96M COP) replicable para pequeños talleres.</p>
+      </div>
+      <div class="concl-card">
+        <div class="concl-num">02</div>
+        <p>La integración de IA (YOLOv8 + TensorFlow) mejora significativamente la adaptabilidad del sistema, permitiendo ajustar automáticamente los parámetros según el tipo de plástico.</p>
+      </div>
+      <div class="concl-card">
+        <div class="concl-num">03</div>
+        <p>Las simulaciones en SolidWorks Plastics permitieron reducir riesgos técnicos y validar el dimensionamiento del tornillo, poleas y motor antes de la fabricación física.</p>
+      </div>
+      <div class="concl-card">
+        <div class="concl-num">04</div>
+        <p>El sistema de transmisión por poleas (i=3) garantiza el torque necesario (3.6 Nm) para el proceso, validando la selección del motor NEMA 23 como actuador principal.</p>
+      </div>
+      <div class="concl-card">
+        <div class="concl-num">05</div>
+        <p>El control PI discreto implementado en ESP32 demuestra capacidad para estabilizar la temperatura del barril minimizando el error en estado estacionario.</p>
+      </div>
+      <div class="concl-card">
+        <div class="concl-num">06</div>
+        <p>El proyecto evidencia la viabilidad de integrar industria 4.0 en manufactura local, contribuyendo a la economía circular y al aprovechamiento de residuos plásticos en Colombia.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ MANUAL DE USUARIO ══════════ -->
+<section class="block" id="manual">
+  <div class="container">
+    <span class="sec-label">Guía de operación</span>
+    <h2 class="sec-title">Manual de Usuario</h2>
+    <div class="sec-line"></div>
+    <p class="sec-desc">Guía completa para el operario de la inyectora de plástico reciclado. Leer completamente antes de operar el equipo.</p>
+
+    <!-- ADVERTENCIA DE SEGURIDAD -->
+    <div style="background:#fff3cd;border:2px solid #f5c200;border-radius:var(--radius);padding:18px 24px;margin-bottom:36px;display:flex;gap:16px;align-items:flex-start;">
+      <span style="font-size:2rem;flex-shrink:0;">⚠️</span>
+      <div>
+        <p style="font-weight:700;color:#856404;margin-bottom:6px;font-size:.95rem;">ADVERTENCIA — Leer antes de operar</p>
+        <p style="font-size:.88rem;color:#856404;line-height:1.6;">
+          Este equipo opera a temperaturas superiores a <strong>260 °C</strong> y con partes móviles. 
+          El operario debe usar <strong>guantes térmicos, gafas de seguridad y ropa de algodón</strong> en todo momento. 
+          Nunca introducir las manos en la tolva con el tornillo en movimiento. 
+          En caso de emergencia presionar inmediatamente <strong>!! EMERGENCIA</strong> en la pantalla HMI.
+        </p>
+      </div>
+    </div>
+
+    <!-- PASO A PASO OPERACIÓN -->
+    <h3 style="font-family:var(--ff-head);color:var(--navy);font-size:1.2rem;margin-bottom:20px;">1. Operación básica paso a paso</h3>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;margin-bottom:40px;">
+
+      <div style="background:var(--white);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);border-top:4px solid var(--blue);position:relative;">
+        <div style="position:absolute;top:-14px;left:20px;background:var(--blue);color:var(--white);font-family:var(--ff-mono);font-size:.75rem;font-weight:700;padding:3px 12px;border-radius:10px;">PASO 01</div>
+        <div style="font-size:1.8rem;margin:8px 0 10px;">🔌</div>
+        <h4 style="font-family:var(--ff-head);color:var(--navy);margin-bottom:8px;">Encendido del equipo</h4>
+        <ol style="padding-left:16px;font-size:.87rem;color:var(--grey);line-height:1.8;">
+          <li>Verificar que el molde esté cerrado y asegurado.</li>
+          <li>Conectar el cable de alimentación 110V.</li>
+          <li>Encender el interruptor principal en el panel lateral.</li>
+          <li>Esperar a que la pantalla HMI muestre la interfaz de control.</li>
+        </ol>
+      </div>
+
+      <div style="background:var(--white);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);border-top:4px solid var(--blue);position:relative;">
+        <div style="position:absolute;top:-14px;left:20px;background:var(--blue);color:var(--white);font-family:var(--ff-mono);font-size:.75rem;font-weight:700;padding:3px 12px;border-radius:10px;">PASO 02</div>
+        <div style="font-size:1.8rem;margin:8px 0 10px;">🌡️</div>
+        <h4 style="font-family:var(--ff-head);color:var(--navy);margin-bottom:8px;">Configurar temperaturas</h4>
+        <ol style="padding-left:16px;font-size:.87rem;color:var(--grey);line-height:1.8;">
+          <li>En la HMI verificar los setpoints para PET:<br>
+            <span style="font-family:var(--ff-mono);font-size:.8rem;color:var(--blue);">Zona 1: 240 °C · Zona 2: 260 °C · Zona 3: 140 °C</span>
+          </li>
+          <li>Presionar <strong>START</strong> para iniciar el calentamiento.</li>
+          <li>Esperar hasta que las temperaturas reales alcancen el setpoint (aprox. 10–15 min).</li>
+          <li>No cargar plástico hasta que las tres zonas estén en temperatura.</li>
+        </ol>
+      </div>
+
+      <div style="background:var(--white);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);border-top:4px solid var(--blue);position:relative;">
+        <div style="position:absolute;top:-14px;left:20px;background:var(--blue);color:var(--white);font-family:var(--ff-mono);font-size:.75rem;font-weight:700;padding:3px 12px;border-radius:10px;">PASO 03</div>
+        <div style="font-size:1.8rem;margin:8px 0 10px;">♻️</div>
+        <h4 style="font-family:var(--ff-head);color:var(--navy);margin-bottom:8px;">Cargar el plástico</h4>
+        <ol style="padding-left:16px;font-size:.87rem;color:var(--grey);line-height:1.8;">
+          <li>Verificar que el plástico sea <strong>PET limpio y seco</strong>, libre de etiquetas y humedad.</li>
+          <li>Fragmentar el material en trozos menores a 1 cm para facilitar la entrada.</li>
+          <li>Verter el material en la tolva de alimentación sin exceder ¾ de su capacidad.</li>
+          <li>El tornillo comenzará a plastificar automáticamente al activar el motor.</li>
+        </ol>
+      </div>
+
+      <div style="background:var(--white);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);border-top:4px solid var(--blue);position:relative;">
+        <div style="position:absolute;top:-14px;left:20px;background:var(--blue);color:var(--white);font-family:var(--ff-mono);font-size:.75rem;font-weight:700;padding:3px 12px;border-radius:10px;">PASO 04</div>
+        <div style="font-size:1.8rem;margin:8px 0 10px;">🏭</div>
+        <h4 style="font-family:var(--ff-head);color:var(--navy);margin-bottom:8px;">Proceso de inyección</h4>
+        <ol style="padding-left:16px;font-size:.87rem;color:var(--grey);line-height:1.8;">
+          <li>Confirmar que Motor 2 muestre <strong style="color:#1a7a4a;">En posición</strong> en la HMI.</li>
+          <li>El sistema activará el Motor 1 (tornillo) automáticamente.</li>
+          <li>Esperar el tiempo de llenado (~4.7 s) y posterior enfriamiento del molde.</li>
+          <li>El ciclo completo dura aproximadamente 30–60 segundos.</li>
+        </ol>
+      </div>
+
+      <div style="background:var(--white);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);border-top:4px solid var(--blue);position:relative;">
+        <div style="position:absolute;top:-14px;left:20px;background:var(--blue);color:var(--white);font-family:var(--ff-mono);font-size:.75rem;font-weight:700;padding:3px 12px;border-radius:10px;">PASO 05</div>
+        <div style="font-size:1.8rem;margin:8px 0 10px;">🧤</div>
+        <h4 style="font-family:var(--ff-head);color:var(--navy);margin-bottom:8px;">Extracción de la pieza</h4>
+        <ol style="padding-left:16px;font-size:.87rem;color:var(--grey);line-height:1.8;">
+          <li>Esperar indicación de ciclo completo en la HMI.</li>
+          <li>Con guantes térmicos, abrir el molde manualmente.</li>
+          <li>La placa eyectora empujará la pieza automáticamente.</li>
+          <li>Retirar la pieza con cuidado — puede estar caliente (~60 °C).</li>
+        </ol>
+      </div>
+
+      <div style="background:var(--white);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);border-top:4px solid #E74C3C;position:relative;">
+        <div style="position:absolute;top:-14px;left:20px;background:#E74C3C;color:var(--white);font-family:var(--ff-mono);font-size:.75rem;font-weight:700;padding:3px 12px;border-radius:10px;">PASO 06</div>
+        <div style="font-size:1.8rem;margin:8px 0 10px;">🔴</div>
+        <h4 style="font-family:var(--ff-head);color:var(--navy);margin-bottom:8px;">Apagado seguro</h4>
+        <ol style="padding-left:16px;font-size:.87rem;color:var(--grey);line-height:1.8;">
+          <li>Presionar <strong>STOP</strong> en la HMI para detener motores y resistencias.</li>
+          <li>Esperar a que la Zona 1 baje de <strong>60 °C</strong> antes de tocar el barril.</li>
+          <li>Vaciar la tolva de material sobrante.</li>
+          <li>Desconectar el cable de alimentación.</li>
+        </ol>
+      </div>
+
+    </div>
+
+    <!-- PANTALLA HMI -->
+    <h3 style="font-family:var(--ff-head);color:var(--navy);font-size:1.2rem;margin-bottom:20px;">2. Interfaz HMI — Pantalla de control</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-bottom:40px;">
+      <div>
+        <img src="hmi_pantalla.png" alt="Pantalla HMI del sistema" style="width:100%;height:280px;object-fit:cover;object-position:center;border-radius:var(--radius);box-shadow:var(--shadow);">
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;justify-content:center;">
+        <div style="background:var(--white);border-radius:var(--radius);padding:14px 18px;box-shadow:var(--shadow);display:flex;gap:14px;align-items:center;">
+          <span style="font-family:var(--ff-mono);font-size:.75rem;background:var(--navy);color:var(--white);padding:3px 8px;border-radius:4px;flex-shrink:0;">SP Zona 1–3</span>
+          <span style="font-size:.85rem;color:var(--grey);">Setpoints de temperatura por zona. Ajustables según el material.</span>
+        </div>
+        <div style="background:var(--white);border-radius:var(--radius);padding:14px 18px;box-shadow:var(--shadow);display:flex;gap:14px;align-items:center;">
+          <span style="font-family:var(--ff-mono);font-size:.75rem;background:#1a7a4a;color:var(--white);padding:3px 8px;border-radius:4px;flex-shrink:0;">START</span>
+          <span style="font-size:.85rem;color:var(--grey);">Inicia el ciclo de calentamiento y habilita los motores.</span>
+        </div>
+        <div style="background:var(--white);border-radius:var(--radius);padding:14px 18px;box-shadow:var(--shadow);display:flex;gap:14px;align-items:center;">
+          <span style="font-family:var(--ff-mono);font-size:.75rem;background:#2c3e50;color:var(--white);padding:3px 8px;border-radius:4px;flex-shrink:0;">STOP</span>
+          <span style="font-size:.85rem;color:var(--grey);">Detiene motores y apaga resistencias de forma controlada.</span>
+        </div>
+        <div style="background:var(--white);border-radius:var(--radius);padding:14px 18px;box-shadow:var(--shadow);display:flex;gap:14px;align-items:center;">
+          <span style="font-family:var(--ff-mono);font-size:.75rem;background:#C0392B;color:var(--white);padding:3px 8px;border-radius:4px;flex-shrink:0;">!! EMERGENCIA</span>
+          <span style="font-size:.85rem;color:var(--grey);">Corte inmediato de todos los sistemas. Usar solo en situaciones de peligro.</span>
+        </div>
+        <div style="background:var(--white);border-radius:var(--radius);padding:14px 18px;box-shadow:var(--shadow);display:flex;gap:14px;align-items:center;">
+          <span style="font-family:var(--ff-mono);font-size:.75rem;background:var(--gold-d);color:var(--white);padding:3px 8px;border-radius:4px;flex-shrink:0;">Duty %</span>
+          <span style="font-size:.85rem;color:var(--grey);">Porcentaje de potencia aplicado a cada resistencia calefactora. 100% = calentando activamente.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PARÁMETROS PET -->
+    <h3 style="font-family:var(--ff-head);color:var(--navy);font-size:1.2rem;margin-bottom:16px;">3. Parámetros para PET reciclado</h3>
+    <table class="specs-table" style="margin-bottom:40px;">
+      <thead>
+        <tr><th>Parámetro</th><th>Zona / Componente</th><th>Valor recomendado</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Temperatura Zona 1 (tolva)</td><td>Entrada del material</td><td>240 °C</td></tr>
+        <tr><td>Temperatura Zona 2 (barril)</td><td>Plastificación principal</td><td>260 °C</td></tr>
+        <tr><td>Temperatura Zona 3 (molde)</td><td>Resistencia adicional molde</td><td>140 °C</td></tr>
+        <tr><td>Tiempo de calentamiento previo</td><td>Antes de cargar material</td><td>10–15 min</td></tr>
+        <tr><td>Tiempo de llenado del molde</td><td>Ciclo de inyección</td><td>~4.7 s</td></tr>
+        <tr><td>Tiempo de enfriamiento</td><td>Antes de abrir molde</td><td>20–30 s</td></tr>
+        <tr><td>Tamaño máximo del pellet</td><td>Tolva de alimentación</td><td>&lt; 1 cm</td></tr>
+        <tr><td>Humedad del material</td><td>PET antes de procesar</td><td>0% (secar si es necesario)</td></tr>
+      </tbody>
+    </table>
+
+    <!-- MANTENIMIENTO -->
+    <h3 style="font-family:var(--ff-head);color:var(--navy);font-size:1.2rem;margin-bottom:16px;">4. Mantenimiento preventivo</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;margin-bottom:40px;">
+      <div style="background:var(--white);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);">
+        <p style="font-family:var(--ff-mono);font-size:.72rem;color:var(--blue);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;">🗓 Después de cada uso</p>
+        <ul style="padding-left:16px;font-size:.87rem;color:var(--grey);line-height:1.9;">
+          <li>Limpiar residuos de plástico en la boquilla con varilla metálica (en caliente).</li>
+          <li>Verificar que la tolva quede vacía.</li>
+          <li>Revisar visualmente el estado de los cables y conexiones.</li>
+        </ul>
+      </div>
+      <div style="background:var(--white);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);">
+        <p style="font-family:var(--ff-mono);font-size:.72rem;color:var(--blue);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;">🗓 Cada 10 usos</p>
+        <ul style="padding-left:16px;font-size:.87rem;color:var(--grey);line-height:1.9;">
+          <li>Verificar tensión de la correa dentada — no debe ceder más de 5 mm bajo presión manual.</li>
+          <li>Lubricar las guías lineales del sistema de cierre con grasa ligera.</li>
+          <li>Revisar el apriete de tornillos en el bastidor y acoples del motor.</li>
+        </ul>
+      </div>
+      <div style="background:var(--white);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);">
+        <p style="font-family:var(--ff-mono);font-size:.72rem;color:var(--blue);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;">🗓 Mensualmente</p>
+        <ul style="padding-left:16px;font-size:.87rem;color:var(--grey);line-height:1.9;">
+          <li>Verificar calibración de sensores PT100 comparando con termómetro de referencia.</li>
+          <li>Revisar el estado de las resistencias calefactoras — reemplazar si hay puntos fríos.</li>
+          <li>Limpiar internamente el barril con purga de material virgen.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SEGURIDAD -->
+    <h3 style="font-family:var(--ff-head);color:var(--navy);font-size:1.2rem;margin-bottom:16px;">5. Normas de seguridad</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px;">
+      <div style="background:#fde8e8;border-radius:var(--radius);padding:16px 20px;border-left:4px solid #E74C3C;">
+        <p style="font-weight:700;color:#C0392B;font-size:.85rem;margin-bottom:8px;">🚫 Prohibido</p>
+        <ul style="padding-left:16px;font-size:.85rem;color:#7b2020;line-height:1.9;">
+          <li>Operar sin equipo de protección personal.</li>
+          <li>Introducir las manos en la tolva con el tornillo activo.</li>
+          <li>Procesar plásticos húmedos o con contaminantes metálicos.</li>
+          <li>Dejar el equipo encendido sin supervisión.</li>
+          <li>Modificar los setpoints de temperatura por encima de 280 °C.</li>
+        </ul>
+      </div>
+      <div style="background:#eaf7f0;border-radius:var(--radius);padding:16px 20px;border-left:4px solid #1a7a4a;">
+        <p style="font-weight:700;color:#1a7a4a;font-size:.85rem;margin-bottom:8px;">✅ Obligatorio</p>
+        <ul style="padding-left:16px;font-size:.85rem;color:#1a4a2e;line-height:1.9;">
+          <li>Usar guantes térmicos y gafas de seguridad en todo momento.</li>
+          <li>Operar en área ventilada — los vapores de PET pueden ser irritantes.</li>
+          <li>Tener a mano un extintor tipo CO₂ cerca del equipo.</li>
+          <li>Verificar que el molde esté correctamente cerrado antes de inyectar.</li>
+          <li>Reportar cualquier anomalía en sensores o motores antes de continuar.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SOLUCIÓN DE PROBLEMAS -->
+    <h3 style="font-family:var(--ff-head);color:var(--navy);font-size:1.2rem;margin-bottom:16px;">6. Solución de problemas comunes</h3>
+    <div style="background:var(--white);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);">
+      <table class="specs-table" style="margin:0;">
+        <thead><tr><th>Síntoma</th><th>Causa probable</th><th>Acción</th></tr></thead>
+        <tbody>
+          <tr><td>El plástico no fluye hacia el molde</td><td>Temperatura insuficiente o material húmedo</td><td>Aumentar tiempo de precalentamiento y secar el material</td></tr>
+          <tr><td>La correa patina o el tornillo no gira</td><td>Tensión de correa insuficiente</td><td>Ajustar distancia entre centros de poleas para tensar la correa</td></tr>
+          <tr><td>Temperatura no sube al setpoint</td><td>Resistencia dañada o SSR defectuoso</td><td>Verificar continuidad de la resistencia y señal del SSR</td></tr>
+          <tr><td>Lectura de temperatura errática</td><td>Conexión suelta del PT100 o MAX31865</td><td>Revisar y apretar conexiones SPI del módulo sensor</td></tr>
+          <tr><td>Pieza incompleta o con burbujas</td><td>Material con humedad o temperatura baja</td><td>Secar el PET mínimo 4 h a 80 °C antes de procesar</td></tr>
+          <tr><td>Motor 2 no aparece "En posición"</td><td>Sensor de posición o driver desconectado</td><td>Verificar conexiones del driver TB6600 y reiniciar ESP32</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════ MONITOREO ══════════ -->
+<section class="block alt" id="monitoreo">
+  <div class="container">
+    <span class="sec-label">Sistema en tiempo real</span>
+    <h2 class="sec-title">Monitoreo del Sistema</h2>
+    <div class="sec-line"></div>
+
+    <div class="monitor-grid">
+
+      <!-- Tarjeta Raspberry / IA -->
+      <div class="card">
+        <h3>📷 Visión IA – Raspberry Pi</h3>
+        <p>Estado: <span id="estadoRaspberry" class="badge offline">Desconectado</span></p>
+        <p>Material detectado: <strong id="materialIA">--</strong></p>
+        <div class="cam-btns" id="cam-btns" style="display:none;">
+          <button onclick="mostrarStream()">▶ Stream en vivo</button>
+          <button onclick="mostrarFoto()">📷 Foto estática</button>
+        </div>
+        <div id="cam-box">
+          <div id="cam-placeholder">Conecta la Raspberry para ver la cámara</div>
+        </div>
+        <div id="cam-material-tag">🔬 --</div>
+        <div style="margin-top:12px;">
+          <button class="btn-conectar" onclick="conectarRaspberry()">🔗 Conectar Raspberry</button>
+        </div>
+      </div>
+
+      <!-- Tarjeta ESP / Sensores -->
+      <div class="card">
+        <h3>⚙️ Sensores – ESP32
+          <span id="estadoESP" class="badge offline" style="margin-left:8px;">Desconectado</span>
+        </h3>
+
+        <p style="margin:10px 0 4px; font-weight:bold; color:#2c3e50; font-size:.9rem;">🌡️ Zona 1</p>
+        <div class="sensor-row"><span class="s-label">Temperatura</span><span class="s-value"><span id="temp1">--</span> °C</span></div>
+        <div class="sensor-row"><span class="s-label">Setpoint</span><span class="s-value"><span id="setpoint1">--</span> °C</span></div>
+        <div class="sensor-row"><span class="s-label">Duty cycle</span><span class="s-value"><span id="duty1">--</span> %</span></div>
+
+        <p style="margin:14px 0 4px; font-weight:bold; color:#2c3e50; font-size:.9rem;">🌡️ Zona 2</p>
+        <div class="sensor-row"><span class="s-label">Temperatura</span><span class="s-value"><span id="temp2">--</span> °C</span></div>
+        <div class="sensor-row"><span class="s-label">Setpoint</span><span class="s-value"><span id="setpoint2">--</span> °C</span></div>
+        <div class="sensor-row"><span class="s-label">Duty cycle</span><span class="s-value"><span id="duty2">--</span> %</span></div>
+
+        <p style="margin:14px 0 4px; font-weight:bold; color:#2c3e50; font-size:.9rem;">🌡️ Zona 3</p>
+        <div class="sensor-row"><span class="s-label">Temperatura</span><span class="s-value"><span id="temp3">--</span> °C</span></div>
+        <div class="sensor-row"><span class="s-label">Setpoint</span><span class="s-value"><span id="setpoint3">--</span> °C</span></div>
+        <div class="sensor-row"><span class="s-label">Duty cycle</span><span class="s-value"><span id="duty3">--</span> %</span></div>
+
+        <div style="margin-top:16px; border-top:1px solid #f0f0f0; padding-top:12px;">
+          <p style="margin:0 0 8px; font-weight:bold; color:#2c3e50; font-size:.9rem;">⚙️ Estado motores</p>
+          <div class="sensor-row"><span class="s-label">Motor 1 – Tornillo</span><span id="estadoMotor1" style="font-weight:bold; color:#95a5a6;">--</span></div>
+          <div class="sensor-row"><span class="s-label">Motor 2 – Molde</span><span id="estadoMotor2" style="font-weight:bold; color:#95a5a6;">--</span></div>
+        </div>
+
+        <div class="ws-config">
+          <input type="text" id="espIP" value="192.168.1.102" placeholder="IP de la ESP32">
+          <input type="text" id="espPort" value="81" placeholder="Puerto WS" style="width:70px;">
+          <button class="btn-conectar" id="btnConectarESP" onclick="conectarESP()">🔗 Conectar</button>
+          <button class="btn-desconectar" id="btnDesconectarESP" onclick="desconectarESP()">✖ Desconectar</button>
+        </div>
+        <span class="toggle-log" onclick="toggleLog()">▼ Ver log de mensajes</span>
+        <div id="ws-log"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ BIBLIOGRAFÍA ══════════ -->
+<section class="block" id="bibliografia">
+  <div class="container">
+    <span class="sec-label">Referencias IEEE</span>
+    <h2 class="sec-title">Bibliografía</h2>
+    <div class="sec-line"></div>
+    <ol class="bib-list">
+      <li>J. Smith, <em>Diseño de máquinas inyectoras</em>. Editorial Ingeniería, 2022.</li>
+      <li>A. Pérez, "Automatización de sistemas de inyección de plástico," <em>Revista de Ingeniería Mecatrónica</em>, 2021.</li>
+      <li>F. González, <em>Simulación de procesos hidráulicos y electrónicos</em>. 2020.</li>
+      <li>G. Jocher et al., "YOLOv8 by Ultralytics," GitHub, 2023. [En línea]. Disponible: https://github.com/ultralytics/ultralytics</li>
+      <li>M. Abadi et al., "TensorFlow: Large-Scale Machine Learning on Heterogeneous Systems," 2015. [En línea]. Disponible: https://tensorflow.org</li>
+      <li>Roboflow, "Roboflow: Give your software the power to see objects in images and video," 2023. [En línea]. Disponible: https://roboflow.com</li>
+      <li>SolidWorks, <em>SolidWorks Plastics User Guide</em>. Dassault Systèmes, 2023.</li>
+      <li>Espressif Systems, <em>ESP32 Technical Reference Manual</em>. v5.1, 2023.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="footer-brand">Inyectora de Plástico Reciclado · UMNG 2026</div>
+  <div class="footer-sub">Ingeniería Mecatrónica · Diseño Mecatrónico · Periodo 2026-1</div>
+  <div>Profesor: Edwin Darío Cendales · Entrega final: 3 de junio de 2026</div>
+  <div class="footer-chips">
+    <span class="footer-chip">Esguerra</span>
+    <span class="footer-chip">Daza</span>
+    <span class="footer-chip">Moreno</span>
+    <span class="footer-chip">Toquica</span>
+    <span class="footer-chip">Medina</span>
+    <span class="footer-chip">Quilaguy</span>
+  </div>
+</footer>
+
+<script>
+  /* ══ NAV ACTIVE ══ */
+  const sections = document.querySelectorAll('section[id], header[id]');
+  const navLinks = document.querySelectorAll('nav.sticky a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const link = document.querySelector(`nav.sticky a[href="#${e.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  sections.forEach(s => observer.observe(s));
+
+  /* ══ PROGRESS BARS ══ */
+  const fills = document.querySelectorAll('.progress-fill');
+  const barObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.width = e.target.getAttribute('style').match(/width:(\S+)/)?.[1] || '0%';
+        barObs.unobserve(e.target);
+      }
+    });
+  });
+  fills.forEach(f => { const w = f.style.width; f.style.width = '0%'; setTimeout(() => barObs.observe(f), 100); });
+
+  /* ══════════════════════════════════════════════════
+   *  RASPBERRY PI  (HTTP polling)
+   * ══════════════════════════════════════════════════ */
+  const IP_RASPBERRY = "http://10.210.89.219:5000";
+  let timerRaspberry = null;
+  let modoCam = "stream";
+
+  function conectarRaspberry() {
+    fetch(IP_RASPBERRY + "/ping")
+      .then(r => r.json())
+      .then(() => {
+        setBadge("estadoRaspberry", "online");
+        document.getElementById("cam-btns").style.display = "block";
+        mostrarStream();
+        clearInterval(timerRaspberry);
+        timerRaspberry = setInterval(actualizarIA, 3000);
+        actualizarIA();
+      })
+      .catch(() => alert("No se pudo conectar con la Raspberry.\nVerifica que el servidor esté corriendo en " + IP_RASPBERRY));
+  }
+
+  function actualizarIA() {
+    fetch(IP_RASPBERRY + "/ia")
+      .then(r => r.json())
+      .then(d => {
+        document.getElementById("materialIA").textContent = d.material;
+        if (modoCam === "foto") {
+          const img = document.getElementById("imgCam");
+          if (img) img.src = IP_RASPBERRY + "/foto?t=" + Date.now();
+        }
+        const tag = document.getElementById("cam-material-tag");
+        tag.style.display = "block";
+        tag.textContent = "🔬 " + d.material;
+      })
+      .catch(() => {
+        setBadge("estadoRaspberry", "offline");
+        clearInterval(timerRaspberry);
+      });
+  }
+
+  function mostrarStream() {
+    modoCam = "stream";
+    document.getElementById("cam-box").innerHTML = `<img id="imgCam" src="${IP_RASPBERRY}/video" alt="Stream en vivo">`;
+  }
+  function mostrarFoto() {
+    modoCam = "foto";
+    document.getElementById("cam-box").innerHTML = `<img id="imgCam" src="${IP_RASPBERRY}/foto?t=${Date.now()}" alt="Foto cámara">`;
+  }
+
+  /* ══════════════════════════════════════════════════
+   *  ESP32  —  WebSocket
+   * ══════════════════════════════════════════════════ */
+  let ws = null;
+  let wsReconectTimer = null;
+  let wsIntentando = false;
+
+  function conectarESP() {
+    const ip   = document.getElementById("espIP").value.trim();
+    const port = document.getElementById("espPort").value.trim() || "81";
+    const url  = `ws://${ip}:${port}`;
+    if (ws && ws.readyState === WebSocket.OPEN) return;
+    setBadge("estadoESP", "connecting");
+    logWS(`Conectando a ${url}…`, "info");
+    document.getElementById("btnConectarESP").disabled = true;
+    ws = new WebSocket(url);
+    ws.onopen = () => {
+      setBadge("estadoESP", "online");
+      logWS("Conexión WebSocket establecida ✓", "info");
+      document.getElementById("btnConectarESP").style.display  = "none";
+      document.getElementById("btnDesconectarESP").style.display = "inline-block";
+      clearTimeout(wsReconectTimer);
+      wsIntentando = false;
+    };
+    ws.onmessage = (event) => {
+      try {
+        const d = JSON.parse(event.data);
+        actualizarSensor("temp1",     d.temp1);
+        actualizarSensor("setpoint1", d.setpoint1);
+        actualizarSensor("duty1",     d.duty1);
+        actualizarSensor("temp2",     d.temp2);
+        actualizarSensor("setpoint2", d.setpoint2);
+        actualizarSensor("duty2",     d.duty2);
+        actualizarSensor("temp3",     d.temp3);
+        actualizarSensor("setpoint3", d.setpoint3);
+        actualizarSensor("duty3",     d.duty3);
+        actualizarMotor1(d.inyectando);
+        actualizarMotor2(d.molde);
+        logWS("← " + event.data, "data");
+      } catch(e) { logWS("Error parseando JSON: " + event.data, "err"); }
+    };
+    ws.onerror = () => logWS("Error de conexión WebSocket", "err");
+    ws.onclose = (e) => {
+      setBadge("estadoESP", "offline");
+      document.getElementById("btnConectarESP").style.display   = "inline-block";
+      document.getElementById("btnConectarESP").disabled        = false;
+      document.getElementById("btnDesconectarESP").style.display = "none";
+      logWS(`Conexión cerrada (código ${e.code})`, "info");
+      if (!wsIntentando && e.code !== 1000) {
+        wsIntentando = true;
+        logWS("Reintentando en 5 s…", "info");
+        wsReconectTimer = setTimeout(conectarESP, 5000);
+      }
+    };
+  }
+
+  function desconectarESP() {
+    wsIntentando = true;
+    clearTimeout(wsReconectTimer);
+    if (ws) ws.close(1000, "Desconexión manual");
+    resetSensores();
+  }
+
+  function actualizarSensor(id, valor) {
+    if (valor === undefined || valor === null) return;
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = valor;
+    el.parentElement.classList.add("updated");
+    setTimeout(() => el.parentElement.classList.remove("updated"), 600);
+  }
+  function actualizarMotor1(val) {
+    const el = document.getElementById("estadoMotor1");
+    if (val === undefined || val === null) return;
+    el.textContent = val == 1 ? "🟢 Inyectando" : "🔴 En espera";
+    el.style.color = val == 1 ? "#27ae60" : "#e74c3c";
+  }
+  function actualizarMotor2(val) {
+    const el = document.getElementById("estadoMotor2");
+    if (val === undefined || val === null) { el.textContent = "⏳ Sin datos"; el.style.color = "#95a5a6"; return; }
+    el.textContent = val == 1 ? "🟢 En posición" : "🔴 Fuera de posición";
+    el.style.color = val == 1 ? "#27ae60" : "#e74c3c";
+  }
+  function resetSensores() {
+    ["temp1","setpoint1","duty1","temp2","setpoint2","duty2","temp3","setpoint3","duty3"]
+      .forEach(id => { const el = document.getElementById(id); if(el) el.textContent = "--"; });
+    document.getElementById("estadoMotor1").textContent = "--";
+    document.getElementById("estadoMotor1").style.color = "#95a5a6";
+    document.getElementById("estadoMotor2").textContent = "--";
+    document.getElementById("estadoMotor2").style.color = "#95a5a6";
+  }
+
+  /* ══ LOG ══ */
+  let logVisible = false;
+  const MAX_LOG = 40;
+  function toggleLog() {
+    logVisible = !logVisible;
+    document.getElementById("ws-log").style.display = logVisible ? "block" : "none";
+    document.querySelector(".toggle-log").textContent = logVisible ? "▲ Ocultar log" : "▼ Ver log de mensajes";
+  }
+  function logWS(msg, tipo = "data") {
+    const log = document.getElementById("ws-log");
+    const now = new Date().toLocaleTimeString("es-CO");
+    const p = document.createElement("p");
+    p.className = tipo === "err" ? "log-err" : tipo === "info" ? "log-info" : "log-data";
+    p.textContent = `[${now}] ${msg}`;
+    log.appendChild(p);
+    while (log.children.length > MAX_LOG) log.removeChild(log.firstChild);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  /* ══ UTILS ══ */
+  function setBadge(id, estado) {
+    const el = document.getElementById(id);
+    const textos = { online: "Conectado", offline: "Desconectado", connecting: "Conectando…" };
+    el.textContent = textos[estado] || estado;
+    el.className   = "badge " + estado;
+  }
+</script>
+</body>
+</html>
